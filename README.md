@@ -1,1 +1,1 @@
-VetConecta.
+VetConecta
