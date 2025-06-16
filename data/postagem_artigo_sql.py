@@ -11,24 +11,31 @@ CREATE TABLE IF NOT EXISTS postagem_artigo (
     FOREIGN KEY (categoria_id) REFERENCES categoria_artigo(id)
 );
 """
+
 INSERIR = """
 INSERT INTO postagem_artigo (id_veterinario, titulo, conteudo, categoria_id)
 VALUES (?, ?, ?, ?);
 """
+
 ATUALIZAR = """
-UPDATE postagem_artigo SET titulo = ?, conteudo = ?, categoria_id = ?, visualizacoes = ?
+UPDATE postagem_artigo 
+SET titulo = ?, conteudo = ?, categoria_id = ?
 WHERE id = ?;
 """
+
 EXCLUIR = """
 DELETE FROM postagem_artigo 
 WHERE id = ?;
 """
+
 OBTER_TODOS = """
 SELECT * 
 FROM postagem_artigo 
 ORDER BY data_publicacao DESC;
 """
+
 OBTER_POR_ID = """
-SELECT * FROM postagem_artigo 
+SELECT * 
+FROM postagem_artigo 
 WHERE id = ?;
 """
