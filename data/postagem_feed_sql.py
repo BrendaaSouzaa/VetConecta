@@ -6,21 +6,25 @@ CREATE TABLE IF NOT EXISTS curtida_artigo (
     PRIMARY KEY (id_usuario, id_artigo),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id),
     FOREIGN KEY (id_artigo) REFERENCES postagem_artigo(id)
-);
+)
 """
 INSERIR = """
 INSERT INTO curtida_artigo (id_usuario, id_artigo)
-VALUES (?, ?);
+VALUES (?, ?)
 """
 ATUALIZAR = """
-DELETE FROM curtida_artigo WHERE id_usuario = ? AND id_artigo = ?;
+DELETE FROM curtida_artigo WHERE id_usuario = ? 
+AND id_artigo = ?
 """
 OBTER_TODOS = """
 SELECT * 
 FROM curtida_artigo 
-ORDER BY data_curtida DESC;
+ORDER BY data_curtida DESC
 """
-OBTER_POR_ID = """ (com base no par usuário + artigo)
-SELECT * FROM curtida_artigo 
-WHERE id_usuario = ? AND id_artigo = ?;
+OBTER_POR_ID = """
+SELECT * 
+FROM curtida_artigo 
+WHERE id_usuario = ? 
+AND id_artigo = ?
 """
+ #(com base no par usuário + artigo)

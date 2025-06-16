@@ -5,25 +5,26 @@ CREATE TABLE IF NOT EXISTS verificacao_crmv (
     data_verificacao DATE DEFAULT CURRENT_DATE,
     status_verificacao TEXT CHECK(status_verificacao IN ('pendente', 'verificado', 'rejeitado')),
     FOREIGN KEY (id_veterinario) REFERENCES veterinario(id_usuario)
-);
+)
 """
 INSERIR = """
 INSERT INTO verificacao_crmv (id_veterinario, status_verificacao)
-VALUES (?, ?);
+VALUES (?, ?)
 """
 ATUALIZAR = """
 UPDATE verificacao_crmv SET status_verificacao = ?
-WHERE id_veterinario = ?;
+WHERE id_veterinario = ?
 """
 EXCLUIR = """
-DELETE FROM verificacao_crmv WHERE id_veterinario = ?;
+DELETE FROM verificacao_crmv WHERE id_veterinario = ?
 """
 OBTER_TODOS = """
-SELECT * F
-ROM verificacao_crmv 
-ORDER BY data_verificacao DESC;
+SELECT *
+FROM verificacao_crmv 
+ORDER BY data_verificacao DESC
 """
 OBTER_POR_ID = """
-SELECT * FROM verificacao_crmv 
-WHERE id = ?;
+SELECT *
+FROM verificacao_crmv 
+WHERE id = ?
 """
