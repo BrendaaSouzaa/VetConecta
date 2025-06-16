@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Usuario:
+class PostagemArtigo:
     id: int
     id_veterinario: int
     titulo: str

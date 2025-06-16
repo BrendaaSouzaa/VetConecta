@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Usuario:
+class Veterinario:
     id_usuario: int
     crmv: str
     verificacao: str

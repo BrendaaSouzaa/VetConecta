@@ -1,31 +1,29 @@
 CRIAR_TABELA = """
-CREATE TABLE IF NOT EXISTS veterinario (
+CREATE TABLE IF NOT EXISTS administrador (
     id_usuario INTEGER PRIMARY KEY,
-    crmv TEXT NOT NULL,
-    verificado BOOLEAN DEFAULT 0,
-    bio TEXT,
+    nivel_acesso INTEGER DEFAULT 1,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 """
 INSERIR = """
-INSERT INTO veterinario (id_usuario, crmv, verificado, bio)
-VALUES (?, ?, ?, ?);
+INSERT INTO administrador (id_usuario, nivel_acesso)
+VALUES (?, ?);
 """
 ATUALIZAR = """
-UPDATE veterinario SET crmv = ?, verificado = ?, bio = ?
+UPDATE administrador SET nivel_acesso = ?
 WHERE id_usuario = ?;
 """
 EXCLUIR = """
-DELETE FROM veterinario 
+DELETE FROM administrador 
 WHERE id_usuario = ?;
 """
 OBTER_TODOS = """
 SELECT * 
-FROM veterinario 
+FROM administrador 
 ORDER BY id_usuario;
 """
 OBTER_POR_ID = """
 SELECT * 
-FROM veterinario 
+FROM administrador 
 WHERE id_usuario = ?;
 """
