@@ -16,8 +16,7 @@ def inserir(seguida: Seguida) -> bool:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
             seguida.id_veterinario,
-            seguida.id_tutor
-        ))
+            seguida.id_tutor))
         return cursor.rowcount > 0
 
 
@@ -36,8 +35,8 @@ def obter_todos() -> List[Seguida]:
         return [Seguida(
             id_veterinario=row["id_veterinario"],
             id_tutor=row["id_tutor"],
-            data_inicio=row["data_inicio"]
-        ) for row in rows]
+            data_inicio=row["data_inicio"])
+            for row in rows]
 
 
 def obter_por_id(id_veterinario: int, id_tutor: int) -> Optional[Seguida]:
