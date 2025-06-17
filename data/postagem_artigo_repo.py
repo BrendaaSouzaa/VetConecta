@@ -30,7 +30,7 @@ def atualizar(postagem: PostagemArtigo) -> bool:
         cursor.execute(ATUALIZAR, (
             postagem.titulo,
             postagem.conteudo,
-            postagem.categoria_artigo .id,
+            postagem.categoria_artigo.id,
             postagem.visualizacoes,
             postagem.id
         ))

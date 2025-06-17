@@ -1,10 +1,12 @@
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class PostagemFeed:
-    id_usuario: int 
-    id_artigo: int
-    data_curtida: str
+    id_postagem_feed: int
+    id_tutor: int
+    imagem: Optional[str]
+    descricao: str
+    data_postagem: str
 
-    #Chave extrangeira em ususario e artigo
     

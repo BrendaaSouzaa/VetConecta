@@ -15,28 +15,29 @@ def inserir(postagem: PostagemFeed) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
-            postagem.id_usuario,
-            postagem.texto
+            postagem.id_tutor,
+            postagem.imagem,
+            postagem.descricao
         ))
         return cursor.lastrowid
 
 
+    
 def atualizar(postagem: PostagemFeed) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR, (
-            postagem.texto,
-            postagem.id
+            postagem.descricao,
+            postagem.id_postagem_feed
         ))
         return cursor.rowcount > 0
 
 
-def excluir(id: int) -> bool:
+def excluir(id_postagem_feed: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(EXCLUIR, (id,))
+        cursor.execute(EXCLUIR, (id_postagem_feed,))
         return cursor.rowcount > 0
-
 
 def obter_todos() -> List[PostagemFeed]:
     with get_connection() as conn:
@@ -44,23 +45,25 @@ def obter_todos() -> List[PostagemFeed]:
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
         return [PostagemFeed(
-            id=row["id"],
-            id_usuario=row["id_usuario"],
-            texto=row["texto"],
-            data_postagem=row["data_postagem"]
-        ) for row in rows]
+                id_postagem_feed=row["id_postagem_feed"],
+                id_tutor=row["id_tutor"],
+                imagem=row["imagem"],
+                descricao=row["descricao"],
+                data_postagem=row["data_postagem"]
+            )
+            for row in rows]
 
-
-def obter_por_id(id: int) -> Optional[PostagemFeed]:
+def obter_por_id(id_postagem_feed: int) -> Optional[PostagemFeed]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id,))
+        cursor.execute(OBTER_POR_ID, (id_postagem_feed,))
         row = cursor.fetchone()
         if row:
             return PostagemFeed(
-                id=row["id"],
-                id_usuario=row["id_usuario"],
-                texto=row["texto"],
+                id_postagem_feed=row["id_postagem_feed"],
+                id_tutor=row["id_tutor"],
+                imagem=row["imagem"],
+                descricao=row["descricao"],
                 data_postagem=row["data_postagem"]
             )
         return None

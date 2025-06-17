@@ -1,7 +1,9 @@
 from typing import Optional, List
 from data.seguida_model import Seguida
 from data.seguida_sql import *
+from data.tutor_model import Tutor
 from data.util import get_connection
+from data.veterinario_model import Veterinario
 
 
 def criar_tabela() -> bool:
@@ -33,8 +35,8 @@ def obter_todos() -> List[Seguida]:
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
         return [Seguida(
-            id_veterinario=row["id_veterinario"],
-            id_tutor=row["id_tutor"],
+            id_veterinario=Veterinario(id_usuario=row["id_veterinario"], nome=row["nome_veterinario"]),
+            id_tutor=Tutor(id_usuario=row["id_tutor"], nome=row["nome_tutor"]),
             data_inicio=row["data_inicio"])
             for row in rows]
 
@@ -46,8 +48,8 @@ def obter_por_id(id_veterinario: int, id_tutor: int) -> Optional[Seguida]:
         row = cursor.fetchone()
         if row:
             return Seguida(
-                id_veterinario=row["id_veterinario"],
-                id_tutor=row["id_tutor"],
+                id_veterinario=Veterinario(id_usuario=row["id_veterinario"], nome=row["nome_veterinario"]),
+                id_tutor=Tutor(id_usuario=row["id_tutor"], nome=row["nome_tutor"]),
                 data_inicio=row["data_inicio"]
             )
         return None
