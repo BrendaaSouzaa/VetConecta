@@ -20,8 +20,7 @@ def inserir(usuario: Usuario) -> Optional[int]:
             usuario.senha,
             usuario.telefone,
             usuario.tipo_usuario))
-        id_inserido = cursor.lastrowid
-        return id_inserido
+        return cursor.lastrowid
 
 
 def atualizar(usuario: Usuario) -> bool:
