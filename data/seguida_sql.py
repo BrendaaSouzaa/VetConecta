@@ -20,13 +20,27 @@ WHERE id_veterinario = ? AND id_tutor = ?;
 """
 
 OBTER_TODOS = """
-SELECT * 
-FROM seguida 
-ORDER BY data_inicio DESC;
+SELECT 
+  s.id_veterinario,
+  v.nome AS nome_veterinario,
+  s.id_tutor,
+  t.nome AS nome_tutor,
+  s.data_inicio
+FROM seguida s
+JOIN veterinario v ON s.id_veterinario = v.id_usuario
+JOIN tutor t ON s.id_tutor = t.id_usuario
+ORDER BY s.data_inicio DESC;
 """
 
 OBTER_POR_ID = """
-SELECT * 
-FROM seguida 
-WHERE id_veterinario = ? AND id_tutor = ?;
+SELECT 
+  s.id_veterinario,
+  v.nome AS nome_veterinario,
+  s.id_tutor,
+  t.nome AS nome_tutor,
+  s.data_inicio
+FROM seguida s
+JOIN veterinario v ON s.id_veterinario = v.id_usuario
+JOIN tutor t ON s.id_tutor = t.id_usuario
+WHERE s.id_veterinario = ? AND s.id_tutor = ?;
 """
