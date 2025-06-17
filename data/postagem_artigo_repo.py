@@ -1,4 +1,5 @@
 from typing import Optional, List
+from data.categoria_artigo_model import CategoriaArtigo
 from data.postagem_artigo_model import PostagemArtigo
 from data.postagem_artigo_sql import *
 from data.util import get_connection
@@ -18,7 +19,7 @@ def inserir(postagem: PostagemArtigo) -> Optional[int]:
             postagem.id_veterinario,
             postagem.titulo,
             postagem.conteudo,
-            postagem.categoria_id
+            postagem.categoria_artigo .id
         ))
         return cursor.lastrowid
 
@@ -29,7 +30,7 @@ def atualizar(postagem: PostagemArtigo) -> bool:
         cursor.execute(ATUALIZAR, (
             postagem.titulo,
             postagem.conteudo,
-            postagem.categoria_id,
+            postagem.categoria_artigo .id,
             postagem.visualizacoes,
             postagem.id
         ))
@@ -53,7 +54,7 @@ def obter_todos() -> List[PostagemArtigo]:
             id_veterinario=row["id_veterinario"],
             titulo=row["titulo"],
             conteudo=row["conteudo"],
-            categoria_id=row["categoria_id"],
+            categoria=CategoriaArtigo(id=row["categoria_id"],),
             data_publicacao=row["data_publicacao"],
             visualizacoes=row["visualizacoes"]
         ) for row in rows]
@@ -70,7 +71,7 @@ def obter_por_id(id: int) -> Optional[PostagemArtigo]:
                 id_veterinario=row["id_veterinario"],
                 titulo=row["titulo"],
                 conteudo=row["conteudo"],
-                categoria_id=row["categoria_id"],
+                categoria=CategoriaArtigo(id=row["categoria_id"],),
                 data_publicacao=row["data_publicacao"],
                 visualizacoes=row["visualizacoes"]
             )
