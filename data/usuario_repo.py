@@ -19,9 +19,9 @@ def inserir(usuario: Usuario) -> Optional[int]:
             usuario.email,
             usuario.senha,
             usuario.telefone,
-            usuario.tipo_usuario
-        ))
-        return cursor.lastrowid
+            usuario.tipo_usuario))
+        id_inserido = cursor.lastrowid
+        return id_inserido
 
 
 def atualizar(usuario: Usuario) -> bool:
@@ -65,11 +65,5 @@ def obter_por_id(id: int) -> Optional[Usuario]:
         cursor.execute(OBTER_POR_ID, (id,))
         row = cursor.fetchone()
         if row:
-            return Usuario(
-                id=row["id"],
-                nome=row["nome"],
-                email=row["email"],
-                telefone=row["telefone"],
-                tipo_usuario=row["tipo_usuario"]
-            )
+            return Usuario(**row)
         return None

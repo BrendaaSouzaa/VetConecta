@@ -1,6 +1,6 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS usuario (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     senha CHAR(8) NOT NULL,
@@ -22,14 +22,14 @@ DELETE FROM usuario
 WHERE id = ?;
 """
 OBTER_TODOS = """
--- OBTER_TODOS
-SELECT id, nome, email, telefone, tipo_usuario 
+SELECT 
+id, nome, email, telefone, tipo_usuario 
 FROM usuario 
 ORDER BY nome;
 """
 OBTER_POR_ID = """
--- OBTER_POR_ID
-SELECT id, nome, email, telefone, tipo_usuario 
+SELECT 
+id, nome, email, telefone, tipo_usuario 
 FROM usuario 
 WHERE id = ?;
 """
