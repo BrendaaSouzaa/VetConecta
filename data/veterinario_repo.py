@@ -61,10 +61,5 @@ def obter_por_id(id_usuario: int) -> Optional[Veterinario]:
         cursor.execute(OBTER_POR_ID, (id_usuario,))
         row = cursor.fetchone()
         if row:
-            return Veterinario(
-                id_usuario=row["id_usuario"],
-                crmv=row["crmv"],
-                verificado=row["verificado"],
-                bio=row["bio"]
-            )
+            return Veterinario(**row)
         return None

@@ -5,16 +5,15 @@ CREATE TABLE IF NOT EXISTS usuario (
     email TEXT NOT NULL UNIQUE,
     senha CHAR(8) NOT NULL,
     telefone CHAR(11) NOT NULL,
-    tipo_usuario TEXT CHECK(tipo_usuario IN ('tutor', 'veterinario')) NOT NULL
 );
 """
 INSERIR = """
-INSERT INTO usuario (nome, email, senha, telefone, tipo_usuario)
+INSERT INTO usuario (nome, email, senha, telefone)
 VALUES (?, ?, ?, ?, ?);
 """
 ATUALIZAR = """
 UPDATE usuario 
-SET nome = ?, email = ?, senha = ?, telefone = ?, tipo_usuario = ?
+SET nome = ?, email = ?, senha = ?, telefone = ?
 WHERE id = ?;
 """
 EXCLUIR = """
@@ -23,13 +22,13 @@ WHERE id = ?;
 """
 OBTER_TODOS = """
 SELECT 
-id, nome, email, telefone, tipo_usuario 
+id, nome, email, telefone
 FROM usuario 
 ORDER BY nome;
 """
 OBTER_POR_ID = """
 SELECT 
-id, nome, email, telefone, tipo_usuario 
+id, nome, email, telefone
 FROM usuario 
 WHERE id = ?;
 """

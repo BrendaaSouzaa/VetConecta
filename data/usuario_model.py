@@ -7,4 +7,3 @@ class Usuario:
     email: str
     senha: str
     telefone: str
-    tipo_usuario: str

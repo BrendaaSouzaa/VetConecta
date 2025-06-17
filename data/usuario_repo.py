@@ -18,8 +18,8 @@ def inserir(usuario: Usuario) -> Optional[int]:
             usuario.nome,
             usuario.email,
             usuario.senha,
-            usuario.telefone,
-            usuario.tipo_usuario))
+            usuario.telefone
+            ))
         return cursor.lastrowid
 
 
@@ -31,7 +31,6 @@ def atualizar(usuario: Usuario) -> bool:
             usuario.email,
             usuario.senha,
             usuario.telefone,
-            usuario.tipo_usuario,
             usuario.id
         ))
         return cursor.rowcount > 0
@@ -53,8 +52,7 @@ def obter_todos() -> List[Usuario]:
             id=row["id"],
             nome=row["nome"],
             email=row["email"],
-            telefone=row["telefone"],
-            tipo_usuario=row["tipo_usuario"]
+            telefone=row["telefone"]
         ) for row in rows]
 
 
