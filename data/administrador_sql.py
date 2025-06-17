@@ -1,17 +1,20 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS administrador (
-    id_usua INTEGER PRIMARY KEY,
-    nivel_acesso INTEGER DEFAULT 1,
+    id_ INTEGER PRIMARY KEY,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    senha INTEGER DEFAULT 1,
+    FOREIGN KEY (id_admin) REFERENCES usuario(id),
 );
 """
 
 INSERIR = """
-INSERT INTO administrador (id_usuario, nivel_acesso)
+INSERT INTO administrador (id_usuario, senha )
 VALUES (?, ?);
 """
 
 ATUALIZAR = """
-UPDATE administrador SET nivel_acesso = ?
+UPDATE administrador SET senha = ?
 WHERE id_usuario = ?;
 """
 
