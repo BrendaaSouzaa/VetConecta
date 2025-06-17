@@ -4,6 +4,6 @@ from dataclasses import dataclass
 class Veterinario:
     id_usuario: int
     crmv: str
-    verificacao: str
+    verificado: bool
     bio: str
     
