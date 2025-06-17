@@ -18,7 +18,7 @@ WHERE id_usuario = ?
 AND id_artigo = ?;
 """
 OBTER_TODOS = """
-SELECT * 
+SELECT *
 FROM curtida_artigo 
 ORDER BY data_curtida DESC;
 """
