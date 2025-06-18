@@ -4,5 +4,5 @@ from datetime import date
 @dataclass
 class CurtidaFeed:
     id_usuario: int
-    id_feed: int
+    id_postagem_feed: int
     data_curtida: date

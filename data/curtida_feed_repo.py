@@ -16,15 +16,15 @@ def inserir(curtida: CurtidaFeed) -> bool:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
             curtida.id_usuario,
-            curtida.id_feed
+            curtida.id_postagem_feed
         ))
         return cursor.rowcount > 0
 
 
-def excluir(id_usuario: int, id_feed: int) -> bool:
+def excluir(id_usuario: int, id_postagem_feed: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(EXCLUIR, (id_usuario, id_feed))
+        cursor.execute(EXCLUIR, (id_usuario, id_postagem_feed))
         return cursor.rowcount > 0
 
 
@@ -35,20 +35,20 @@ def obter_todos() -> List[CurtidaFeed]:
         rows = cursor.fetchall()
         return [CurtidaFeed(
             id_usuario=row["id_usuario"],
-            id_feed=row["id_feed"],
+            id_postagem_feed=row["id_postagem_feed"],
             data_curtida=row["data_curtida"]
         ) for row in rows]
 
 
-def obter_por_id(id_usuario: int, id_feed: int) -> Optional[CurtidaFeed]:
+def obter_por_id(id_usuario: int, id_postagem_feed: int) -> Optional[CurtidaFeed]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_usuario, id_feed))
+        cursor.execute(OBTER_POR_ID, (id_usuario, id_postagem_feed))
         row = cursor.fetchone()
         if row:
             return CurtidaFeed(
-                id_usuario=row["id_usuario"],
-                id_feed=row["id_feed"],
+                id_usuario=id_usuario,
+                id_postagem_feed=id_postagem_feed,
                 data_curtida=row["data_curtida"]
             )
         return None
