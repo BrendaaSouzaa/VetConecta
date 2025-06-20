@@ -1,36 +1,37 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS administrador (
-    id_ INTEGER PRIMARY KEY,
+    id_admin INTEGER PRIMARY KEY,
     nome TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    senha INTEGER DEFAULT 1,
-    FOREIGN KEY (id_admin) REFERENCES usuario(id),
+    senha CHAR(8),
+    FOREIGN KEY (id_admin) REFERENCES usuario(id_usuario)
 );
 """
 
 INSERIR = """
-INSERT INTO administrador (id_usuario, senha )
-VALUES (?, ?);
+INSERT INTO administrador (nome, email, senha )
+VALUES (?, ?, ?);
 """
 
 ATUALIZAR = """
-UPDATE administrador SET senha = ?
-WHERE id_usuario = ?;
+UPDATE administrador 
+SET nome = ?, email = ?, senha = ?
+WHERE id_admin = ?;
 """
 
 EXCLUIR = """
 DELETE FROM administrador 
-WHERE id_usuario = ?;
+WHERE id_admin = ?;
 """
 
 OBTER_TODOS = """
 SELECT * 
 FROM administrador 
-ORDER BY id_usuario;
+ORDER BY id_admin;
 """
 
 OBTER_POR_ID = """
 SELECT * 
 FROM administrador 
-WHERE id_usuario = ?;
+WHERE id_admin = ?;
 """

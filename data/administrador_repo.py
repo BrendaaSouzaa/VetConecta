@@ -14,21 +14,21 @@ def criar_tabela_administrador() -> bool:
 def inserir_administrador(admin: Administrador) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (admin.id_usuario, admin.nivel_acesso))
+        cursor.execute(INSERIR, (admin.nome, admin.email, admin.senha))
         return cursor.rowcount > 0
 
 
 def atualizar_administrador(admin: Administrador) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR, (admin.nivel_acesso, admin.id_usuario))
+        cursor.execute(ATUALIZAR, (admin.nome, admin.email, admin.senha, admin.id_admin))
         return cursor.rowcount > 0
 
 
-def excluir_administrador(id_usuario: int) -> bool:
+def excluir_administrador(id_admin: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(EXCLUIR, (id_usuario,))
+        cursor.execute(EXCLUIR, (id_admin,))
         return cursor.rowcount > 0
 
 
