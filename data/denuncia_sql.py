@@ -1,12 +1,12 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS denuncia (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_denuncia INTEGER PRIMARY KEY AUTOINCREMENT,
     id_usuario INTEGER NOT NULL,
     id_admin INTEGER,
     motivo TEXT NOT NULL,
-    data_denuncia DATETIME DEFAULT CURRENT_TIMESTAMP,
+    data_denuncia DATETIME DEFAULT CURRENT_DATE,
     status TEXT DEFAULT 'pendente',
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_admin) REFERENCES administrador(id)
 );
 """
