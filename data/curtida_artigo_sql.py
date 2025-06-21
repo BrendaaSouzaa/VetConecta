@@ -17,6 +17,8 @@ DELETE FROM curtida_artigo
 WHERE id_usuario = ? 
 AND id_postagem_artigo = ?;
 """
+#?????
+
 OBTER_TODOS = """
 SELECT *
 FROM curtida_artigo 

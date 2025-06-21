@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Usuario:
-    id: int
+    id_usuario: int
     nome: str
     email: str
     senha: str

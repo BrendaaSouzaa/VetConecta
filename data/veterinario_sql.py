@@ -1,6 +1,6 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS veterinario (
-    id_veterinario INTEGER PRIMARY KEY,
+    id_veterinario INTEGER PRIMARY KEY AUTOINCREMENT,
     crmv TEXT NOT NULL,
     verificado BOOLEAN DEFAULT 0,
     bio TEXT,
@@ -24,13 +24,44 @@ WHERE id_veterinario = ?;
 """
 
 OBTER_TODOS = """
-SELECT * 
-FROM veterinario 
-ORDER BY id_veterinario;
+SELECT
+v.id_veterinario,
+u.nome, 
+u.email, 
+u.telefone, 
+v.crmv, 
+v.bio
+FROM veterinario v
+JOIN usuario u ON v.id_usuario = u.id
+ORDER BY v.id_veterinario;
 """
 
 OBTER_POR_ID = """
-SELECT * 
-FROM veterinario 
-WHERE id_veterinario = ?;
+SELECT 
+v.id_veterinario,
+u.nome,
+u.email,
+u.telefone,
+v.crmv,
+v.bio
+FROM veterinario v
+JOIN usuario u ON v.id_usuario = u.id
+WHERE v.id_veterinario = ?;
 """
+
+
+# OBTER_VETERINARIOS_VERIFICADOS = """
+# SELECT u.nome, u.email, u.telefone, v.crmv, v.bio
+# FROM veterinario v
+# JOIN usuario u ON v.id_veterinario = u.id_usuario
+# WHERE v.verificado = 1
+# ORDER BY u.nome;
+# """
+
+# OBTER_VETERINARIOS_NAO_VERIFICADOS = """
+# SELECT u.nome, u.email, u.telefone, v.crmv, v.bio
+# FROM veterinario v
+# JOIN usuario u ON v.id_veterinario = u.id_usuario
+# WHERE v.verificado = 0
+# ORDER BY u.nome;
+# """

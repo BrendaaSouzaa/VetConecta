@@ -4,14 +4,14 @@ from data.usuario_sql import *
 from data.util import get_connection
 
 
-def criar_tabela() -> bool:
+def criar_tabela_usuario() -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
-        return True
+        return cursor.rowcount > 0
 
 
-def inserir(usuario: Usuario) -> Optional[int]:
+def inserir_usuario(usuario: Usuario) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
@@ -23,7 +23,7 @@ def inserir(usuario: Usuario) -> Optional[int]:
         return cursor.lastrowid
 
 
-def atualizar(usuario: Usuario) -> bool:
+def atualizar_usuario(usuario: Usuario) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR, (
@@ -31,36 +31,43 @@ def atualizar(usuario: Usuario) -> bool:
             usuario.email,
             usuario.senha,
             usuario.telefone,
-            usuario.id
+            usuario.id_usuario
         ))
         return cursor.rowcount > 0
 
 
-def excluir(id: int) -> bool:
+def excluir_usuario(id_usuario: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(EXCLUIR, (id,))
-        return cursor.rowcount > 0
+        cursor.execute(EXCLUIR, (id_usuario,))
+        return (cursor.rowcount > 0)
 
-
-def obter_todos() -> List[Usuario]:
+def obter_todos_usuarios() -> list[Usuario]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
-        return [Usuario(
-            id=row["id"],
-            nome=row["nome"],
-            email=row["email"],
-            telefone=row["telefone"]
-        ) for row in rows]
-
-
-def obter_por_id(id: int) -> Optional[Usuario]:
+        usuarios = [
+            Usuario(
+                id_usuario=row["id_usuario"], 
+                nome=row["nome"], 
+                email=row["email"], 
+                senha=row["senha"], 
+                telefone=row["telefone"])
+            for row in rows]
+        return usuarios
+    
+def obter_usuario_por_id(id_usuario: int) -> Optional[Usuario]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id,))
+        cursor.execute(OBTER_POR_ID, (id_usuario,))
         row = cursor.fetchone()
-        if row:
-            return Usuario(**row)
-        return None
+        usuario = Usuario(
+            id=row["id_usuario"], 
+            nome=row["nome"], 
+            email=row["email"], 
+            senha=row["senha"], 
+            telefone=row["telefone"])
+        return usuario
+
+

@@ -4,62 +4,65 @@ from data.veterinario_sql import *
 from data.util import get_connection
 
 
-def criar_tabela() -> bool:
+def criar_tabela_tutor() -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
-        return True
+        return cursor.rowcount > 0
 
-
-def inserir(vet: Veterinario) -> bool:
+def inserir_veterinario(vet: Veterinario) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
-            vet.id_usuario,
+            vet.id_veterinario,
             vet.crmv,
             vet.verificado,
             vet.bio
-        ))
-        return cursor.rowcount > 0
+            ))
+        return cursor.lastrowid
 
 
-def atualizar(vet: Veterinario) -> bool:
+def atualizar_veterinario(vet: Veterinario) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR, (
             vet.crmv,
             vet.verificado,
             vet.bio,
-            vet.id_usuario
+            vet.id_veterinario
         ))
         return cursor.rowcount > 0
 
-
-def excluir(id_usuario: int) -> bool:
+def excluir_veterinario(id_veterinario: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(EXCLUIR, (id_usuario,))
+        cursor.execute(EXCLUIR, (id_veterinario,))
         return cursor.rowcount > 0
+    
 
 
-def obter_todos() -> List[Veterinario]:
+def obter_todos_veterinarios() -> list[Veterinario]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
-        return [Veterinario(
-            id_usuario=row["id_usuario"],
-            crmv=row["crmv"],
-            verificado=row["verificado"],
-            bio=row["bio"]
-        ) for row in rows]
-
-
-def obter_por_id(id_usuario: int) -> Optional[Veterinario]:
+        veterinarios = [
+            Veterinario(
+                id_veterinario=row["id_veterinario"], 
+                crmv=row["crmv"],
+                verificado=row["verificado"],
+                bio=row["bio"])
+            for row in rows]
+        return veterinarios
+    
+def obter_veterinario_por_id(id_veterinario: int) -> Optional[Veterinario]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_usuario,))
+        cursor.execute(OBTER_POR_ID, (id_veterinario,))
         row = cursor.fetchone()
-        if row:
-            return Veterinario(**row)
-        return None
+        veterinario = Veterinario(
+                id_veterinario=row["id_veterinario"], 
+                crmv=row["crmv"],
+                verificado=row["verificado"],
+                bio=row["bio"])
+        return veterinario

@@ -9,26 +9,32 @@ CREATE TABLE IF NOT EXISTS usuario (
 """
 INSERIR = """
 INSERT INTO usuario (nome, email, senha, telefone)
-VALUES (?, ?, ?, ?, ?);
+VALUES (?, ?, ?, ?);
 """
 ATUALIZAR = """
 UPDATE usuario 
 SET nome = ?, email = ?, senha = ?, telefone = ?
-WHERE id = ?;
+WHERE id_usuario = ?;
 """
 EXCLUIR = """
 DELETE FROM usuario 
-WHERE id = ?;
+WHERE id_usuario = ?;
 """
 OBTER_TODOS = """
 SELECT 
-id, nome, email, telefone
+id_usuario, 
+nome, 
+email, 
+telefone
 FROM usuario 
 ORDER BY nome;
 """
 OBTER_POR_ID = """
 SELECT 
-id, nome, email, telefone
+id_usuario, 
+nome, 
+email, 
+telefone
 FROM usuario 
-WHERE id = ?;
+WHERE id_usuario = ?;
 """
