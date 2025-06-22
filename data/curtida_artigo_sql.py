@@ -1,6 +1,6 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS curtida_artigo (
-    id_usuario INTEGER NOT NULL,
+    id_usuario INTEGER NOT NULL AUTOINCREMENT,
     id_postagem_artigo INTEGER PRIMARY KEY AUTOINCREMENT,
     data_curtida DATE DEFAULT CURRENT_DATE,
     PRIMARY KEY (id_usuario, id_postagem_artigo),

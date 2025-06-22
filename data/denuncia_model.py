@@ -1,10 +1,11 @@
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class Denuncia:
-    id: int
+    id_denuncia: Optional[int] 
     id_usuario: int
-    id_comentario: int | None  # pode ser nulo
+    id_admin: Optional[int]
     motivo: str
-    data_envio: str  # formato DATETIME
-    status: str  # padrão: 'pendente'
+    data_denuncia: str
+    status: str

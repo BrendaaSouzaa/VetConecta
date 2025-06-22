@@ -16,7 +16,7 @@ def inserir_denuncia(denuncia: Denuncia) -> Optional[int]:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
             denuncia.id_usuario,
-            denuncia.id_comentario,
+            denuncia.id_admin,
             denuncia.motivo,
             denuncia.status
         ))
@@ -28,10 +28,10 @@ def atualizar_denuncia(denuncia: Denuncia) -> bool:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR, (
             denuncia.id_usuario,
-            denuncia.id_comentario,
+            denuncia.id_admin,
             denuncia.motivo,
             denuncia.status,
-            denuncia.id
+            denuncia.id_denuncia
         ))
         return cursor.rowcount > 0
 
