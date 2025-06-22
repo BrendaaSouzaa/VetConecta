@@ -1,31 +1,53 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS curtida_artigo (
-    id_usuario INTEGER NOT NULL AUTOINCREMENT,
-    id_postagem_artigo INTEGER PRIMARY KEY AUTOINCREMENT,
-    data_curtida DATE DEFAULT CURRENT_DATE,
+    id_usuario INTEGER NOT NULL,
+    id_postagem_artigo INTEGER NOT NULL,
+    data_curtida DATE DEFAULT CURRENT_DATE
     PRIMARY KEY (id_usuario, id_postagem_artigo),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (id_postagem_artigo) REFERENCES postagem_artigo(id)
-);
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_postagem_artigo) REFERENCES postagem_artigo(id_artigo)
+);  
 """
+
 INSERIR = """
 INSERT INTO curtida_artigo (id_usuario, id_postagem_artigo)
 VALUES (?, ?);
 """
+
 ATUALIZAR = """
+UPDATE curtida_artigo
+SET data_curtida = ?
+WHERE id_usuario = ? AND id_postagem_artigo = ?;
+"""
+
+EXCLUIR = """
 DELETE FROM curtida_artigo
 WHERE id_usuario = ? 
 AND id_postagem_artigo = ?;
 """
-#?????
 
 OBTER_TODOS = """
-SELECT *
-FROM curtida_artigo 
-ORDER BY data_curtida DESC;
-"""
-OBTER_POR_ID = """ #(com base no par usuário + artigo)
-SELECT * FROM curtida_artigo 
-WHERE id_usuario = ? AND id_postagem_artigo = ?;
+SELECT
+    ca.id_usuario,
+    u.nome AS nome_usuario,
+    ca.id_postagem_artigo,
+    pa.titulo AS titulo_artigo,
+    ca.data_curtida
+FROM curtida_artigo ca
+JOIN usuario u ON ca.id_usuario = u.id_usuario
+JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
+ORDER BY ca.data_curtida DESC;
 """
 
+OBTER_POR_ID = """
+SELECT
+    ca.id_usuario,
+    u.nome AS nome_usuario,
+    ca.id_postagem_artigo,
+    pa.titulo AS titulo_artigo,
+    ca.data_curtida
+FROM curtida_artigo ca
+JOIN usuario u ON ca.id_usuario = u.id_usuario
+JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
+WHERE ca.id_usuario = ? AND ca.id_postagem_artigo = ?;
+"""
