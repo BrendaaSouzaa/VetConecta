@@ -18,10 +18,10 @@ def inserir(curtida: CurtidaArtigo) -> bool:
         return cursor.rowcount > 0
 
 
-def remover(id_usuario: int, id_artigo: int) -> bool:
+def excluir_curtida(id_usuario: int, id_postagem_artigo: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR, (id_usuario, id_artigo))
+        cursor.execute(EXCLUIR, (id_usuario, id_postagem_artigo))
         return cursor.rowcount > 0
 
 
@@ -37,10 +37,10 @@ def obter_todos() -> List[CurtidaArtigo]:
         ) for row in rows]
 
 
-def obter_por_id(id_usuario: int, id_artigo: int) -> Optional[CurtidaArtigo]:
+def obter_por_id(id_usuario: int, id_postagem_artigo: int) -> Optional[CurtidaArtigo]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_usuario, id_artigo))
+        cursor.execute(OBTER_POR_ID, (id_usuario, id_postagem_artigo))
         row = cursor.fetchone()
         if row:
             return CurtidaArtigo(
