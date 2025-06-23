@@ -29,10 +29,14 @@ def atualizar_usuario(usuario: Usuario) -> bool:
         cursor.execute(ATUALIZAR, (
             usuario.nome,
             usuario.email,
-            usuario.senha,
             usuario.telefone,
-            usuario.id_usuario
-        ))
+            usuario.id_usuario))
+        return cursor.rowcount > 0
+    
+def atualizar_senha(id_usuario:int, senha:str) -> bool:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(ATUALIZAR_SENHA, (senha, id_usuario))
         return cursor.rowcount > 0
 
 

@@ -2,6 +2,7 @@ from typing import Optional, List
 from data.verificacao_crmv_model import VerificacaoCRMV
 from data.verificacao_crmv_sql import *
 from data.util import get_connection
+from data.veterinario_model import Veterinario
 
 
 def criar_tabela() -> bool:
@@ -15,7 +16,7 @@ def inserir(verificacao: VerificacaoCRMV) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
-            verificacao.id_veterinario,
+            verificacao.veterinario,
             verificacao.status_verificacao
         ))
         return cursor.lastrowid
@@ -42,7 +43,7 @@ def obter_todos() -> List[VerificacaoCRMV]:
         rows = cursor.fetchall()
         return [VerificacaoCRMV(
             id=row["id"],
-            id_veterinario=row["id_veterinario"],
+            veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome"], email=row["email"], telefone=row["telefone"]),
             data_verificacao=row["data_verificacao"],
             status_verificacao=row["status_verificacao"]
         ) for row in rows]
@@ -56,7 +57,7 @@ def obter_por_id(id: int) -> Optional[VerificacaoCRMV]:
         if row:
             return VerificacaoCRMV(
                 id=row["id"],
-                id_veterinario=row["id_veterinario"],
+                veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome"], email=row["email"], telefone=row["telefone"]),
                 data_verificacao=row["data_verificacao"],
                 status_verificacao=row["status_verificacao"]
             )

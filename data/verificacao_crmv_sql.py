@@ -19,11 +19,25 @@ EXCLUIR = """
 DELETE FROM verificacao_crmv WHERE id_veterinario = ?;
 """
 OBTER_TODOS = """
-SELECT * F
-ROM verificacao_crmv 
-ORDER BY data_verificacao DESC;
+SELECT 
+    v.id,
+    v.data_verificacao,
+    v.status_verificacao,
+    u.id_usuario AS id_veterinario,
+    u.nome AS nome_veterinario
+FROM verificacao_crmv v
+JOIN usuario u ON v.id_veterinario = u.id_usuario
+ORDER BY v.data_verificacao DESC;
 """
+
 OBTER_POR_ID = """
-SELECT * FROM verificacao_crmv 
-WHERE id = ?;
+SELECT 
+    v.id,
+    v.data_verificacao,
+    v.status_verificacao,
+    u.id_usuario AS id_veterinario,
+    u.nome AS nome_veterinario
+FROM verificacao_crmv v
+JOIN usuario u ON v.id_veterinario = u.id_usuario
+WHERE v.id = ?;
 """
