@@ -1,6 +1,8 @@
 from typing import Optional, List
 from data.comentario_model import Comentario
 from data.comentario_sql import *
+from data.postagem_artigo_model import PostagemArtigo
+from data.usuario_model import Usuario
 from data.util import get_connection
 
 
@@ -47,12 +49,12 @@ def obter_todos() -> List[Comentario]:
         rows = cursor.fetchall()
         return [Comentario(
             id=row["id"],
-            id_usuario=row["id_usuario"],
-            id_artigo=row["id_artigo"],
+            id_usuario=Usuario(id_usuario=row["id_usuario"], nome=row["nome_usuario"]),
+            id_artigo=PostagemArtigo(id=row["id_artigo"], titulo=row["titulo_artigo"]),
             texto=row["texto"],
             data_comentario=row["data_comentario"],
-            data_moderacao=row["data_moderacao"]
-        ) for row in rows]
+            data_moderacao=row["data_moderacao"])
+            for row in rows]
 
 
 def obter_por_id(id: int) -> Optional[Comentario]:
@@ -63,10 +65,9 @@ def obter_por_id(id: int) -> Optional[Comentario]:
         if row:
             return Comentario(
                 id=row["id"],
-                id_usuario=row["id_usuario"],
-                id_artigo=row["id_artigo"],
+                id_usuario=Usuario(id_usuario=row["id_usuario"], nome=row["nome_usuario"]),
+                id_artigo=PostagemArtigo(id=row["id_artigo"], titulo=row["titulo_artigo"]),
                 texto=row["texto"],
                 data_comentario=row["data_comentario"],
-                data_moderacao=row["data_moderacao"]
-            )
+                data_moderacao=row["data_moderacao"])
         return None

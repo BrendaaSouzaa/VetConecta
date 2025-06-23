@@ -23,11 +23,27 @@ DELETE FROM comentario
 WHERE id = ?;
 """
 OBTER_TODOS = """
-SELECT * 
-FROM comentario 
-ORDER BY data_comentario DESC;
+SELECT 
+    c.id,
+    c.texto,
+    c.data_comentario,
+    u.nome AS nome_usuario,
+    a.titulo AS titulo_artigo
+FROM comentario c
+JOIN usuario u ON c.id_usuario = u.id_usuario
+JOIN postagem_artigo a ON c.id_artigo = a.id
+ORDER BY c.data_comentario DESC;
 """
-OBTER_POR_ID ="""
-SELECT * FROM comentario 
-WHERE id = ?;
+OBTER_POR_ID = """
+SELECT 
+    c.id,
+    c.texto,
+    c.data_comentario,
+    c.data_moderacao,
+    u.nome AS nome_usuario,
+    a.titulo AS titulo_artigo
+FROM comentario c
+JOIN usuario u ON c.id_usuario = u.id_usuario
+JOIN postagem_artigo a ON c.id_artigo = a.id
+WHERE c.id = ?;
 """

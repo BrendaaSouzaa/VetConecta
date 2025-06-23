@@ -1,6 +1,7 @@
 from typing import Optional, List
 from data.tutor_model import Tutor
-from data.tutor_sql import *
+from data.tutor_sql as tutor_sql
+from data.usuario_sql as usuario_sql
 from data.util import get_connection
 
   
@@ -10,12 +11,15 @@ def criar_tabela_tutor() -> bool:
         cursor.execute(CRIAR_TABELA)
         return cursor.rowcount > 0
 
-def inserir_usuario(tutor: Tutor) -> Optional[int]:
+def inserir_tutor(tutor: Tutor) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(INSERIR, (
-            tutor.id_tutor, 
-            tutor.telefone, 
+        cursor.execute(usuario_sql.INSERIR, (
+            tutor.id_tutor,  
+            tutor.endereco))
+        return cursor.lastrowid
+        cursor.execute(usuario_sql.INSERIR, (
+            tutor.id_tutor,  
             tutor.endereco
             ))
         return cursor.lastrowid

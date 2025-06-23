@@ -1,6 +1,6 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS veterinario (
-    id_veterinario INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_veterinario INTEGER PRIMARY KEY,
     crmv TEXT NOT NULL,
     verificado BOOLEAN DEFAULT 0,
     bio TEXT,

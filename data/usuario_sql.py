@@ -13,9 +13,16 @@ VALUES (?, ?, ?, ?);
 """
 ATUALIZAR = """
 UPDATE usuario 
-SET nome = ?, email = ?, senha = ?, telefone = ?
+SET nome = ?, email = ?, telefone = ?
 WHERE id_usuario = ?;
 """
+
+ATUALIZAR_SENHA = """
+UPDATE usuario 
+SET senha = ?
+WHERE id_usuario = ?;
+"""
+
 EXCLUIR = """
 DELETE FROM usuario 
 WHERE id_usuario = ?;
