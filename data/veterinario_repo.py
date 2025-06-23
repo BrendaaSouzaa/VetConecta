@@ -8,7 +8,7 @@ def criar_tabela_tutor() -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA)
-        return cursor.rowcount > 0
+        return (cursor.rowcount > 0)
 
 def inserir_veterinario(vet: Veterinario) -> Optional[int]:
     with get_connection() as conn:
@@ -31,13 +31,13 @@ def atualizar_veterinario(vet: Veterinario) -> bool:
             vet.bio,
             vet.id_veterinario
         ))
-        return cursor.rowcount > 0
+        return (cursor.rowcount > 0)
 
 def excluir_veterinario(id_veterinario: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(EXCLUIR, (id_veterinario,))
-        return cursor.rowcount > 0
+        return (cursor.rowcount > 0)
     
 
 
@@ -66,3 +66,5 @@ def obter_veterinario_por_id(id_veterinario: int) -> Optional[Veterinario]:
                 verificado=row["verificado"],
                 bio=row["bio"])
         return veterinario
+    
+

@@ -34,8 +34,8 @@ SELECT
     pa.titulo AS titulo_artigo,
     ca.data_curtida
 FROM curtida_artigo ca
-JOIN usuario u ON ca.id_usuario = u.id_usuario
-JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
+INNER JOIN usuario u ON ca.id_usuario = u.id_usuario
+INNER JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
 ORDER BY ca.data_curtida DESC;
 """
 
@@ -47,7 +47,7 @@ SELECT
     pa.titulo AS titulo_artigo,
     ca.data_curtida
 FROM curtida_artigo ca
-JOIN usuario u ON ca.id_usuario = u.id_usuario
-JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
+INNER JOIN usuario u ON ca.id_usuario = u.id_usuario
+INNER JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
 WHERE ca.id_usuario = ? AND ca.id_postagem_artigo = ?;
 """

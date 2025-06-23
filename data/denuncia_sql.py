@@ -37,8 +37,8 @@ SELECT
     d.status,
     u.nome AS nome_usuario
 FROM denuncia d
-JOIN usuario u ON d.id_usuario = u.id_usuario
-JOIN administrador a ON d.id_admin = a.id_admin
+INNER JOIN usuario u ON d.id_usuario = u.id_usuario
+INNER JOIN administrador a ON d.id_admin = a.id_admin
 ORDER BY d.data_denuncia DESC;
 """
 
@@ -53,8 +53,8 @@ SELECT
     u.nome AS nome_usuario,
     a.nome AS nome_admin
 FROM denuncia d
-JOIN usuario u ON d.id_usuario = u.id_usuario
-JOIN administrador a ON d.id_admin = a.id_admin
+INNER JOIN usuario u ON d.id_usuario = u.id_usuario
+INNER JOIN administrador a ON d.id_admin = a.id_admin
 WHERE d.id_denuncia = ?;
 """
 

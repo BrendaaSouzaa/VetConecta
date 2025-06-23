@@ -32,7 +32,7 @@ u.telefone,
 v.crmv, 
 v.bio
 FROM veterinario v
-JOIN usuario u ON v.id_usuario = u.id
+INNER JOIN usuario u ON v.id_usuario = u.id
 ORDER BY v.id_veterinario;
 """
 
@@ -45,7 +45,7 @@ u.telefone,
 v.crmv,
 v.bio
 FROM veterinario v
-JOIN usuario u ON v.id_usuario = u.id
+INNER JOIN usuario u ON v.id_usuario = u.id
 WHERE v.id_veterinario = ?;
 """
 
