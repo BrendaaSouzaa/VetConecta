@@ -3,6 +3,7 @@ from data.verificacao_crmv_model import VerificacaoCRMV
 from data.verificacao_crmv_sql import *
 from data.util import get_connection
 from data.veterinario_model import Veterinario
+from data.administrador_model import Administrador
 
 
 def criar_tabela() -> bool:
@@ -16,7 +17,8 @@ def inserir(verificacao: VerificacaoCRMV) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
-            verificacao.veterinario,
+            verificacao.veterinario.id_veterinario,
+            verificacao.administrador.id_admin,
             verificacao.status_verificacao
         ))
         return cursor.lastrowid
@@ -41,12 +43,14 @@ def obter_todos() -> List[VerificacaoCRMV]:
         cursor = conn.cursor()
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
-        return [VerificacaoCRMV(
-            id=row["id"],
-            veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome"], email=row["email"], telefone=row["telefone"]),
-            data_verificacao=row["data_verificacao"],
-            status_verificacao=row["status_verificacao"]
-        ) for row in rows]
+        return [
+            VerificacaoCRMV(
+                id=row["id"],
+                veterinario=Veterinario(id_veterinario=row["id_veterinario"]),
+                administrador=Administrador(id_admin=row["id_admin"],nome=row["nome_admin"],email=row["email_admin"]),
+                data_verificacao=row["data_verificacao"],
+                status_verificacao=row["status_verificacao"]
+            ) for row in rows]
 
 
 def obter_por_id(id: int) -> Optional[VerificacaoCRMV]:
@@ -57,8 +61,8 @@ def obter_por_id(id: int) -> Optional[VerificacaoCRMV]:
         if row:
             return VerificacaoCRMV(
                 id=row["id"],
-                veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome"], email=row["email"], telefone=row["telefone"]),
+                veterinario=Veterinario(id_veterinario=row["id_veterinario"]),
+                administrador=Administrador(id_admin=row["id_admin"],nome=row["nome_admin"],email=row["email_admin"]),
                 data_verificacao=row["data_verificacao"],
-                status_verificacao=row["status_verificacao"]
-            )
+                status_verificacao=row["status_verificacao"])
         return None
