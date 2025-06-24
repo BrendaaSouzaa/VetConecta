@@ -8,3 +8,32 @@ CREATE TABLE IF NOT EXISTS resposta_chamado (
     FOREIGN KEY (id_chamado) REFERENCES chamado(id)
 );
 """
+
+INSERIR = """
+INSERT INTO resposta_chamado (id_chamado, titulo, descricao, data) 
+VALUES (?, ?, ?, ?);
+"""
+
+ATUALIZAR = """
+UPDATE resposta_chamado 
+SET id_chamado, titulo = ?, descricao = ?, data = ?
+WHERE id = ?
+"""
+
+EXCLUIR = """
+DELETE FROM resposta_chamado
+WHERE id = ?;
+"""
+
+OBTER_TODOS = """
+SELECT * 
+FROM resposta_chamado 
+ORDER BY data DESC;
+"""
+
+OBTER_POR_ID = """
+SELECT * 
+FROM resposta_chamado
+WHERE id = ?;
+
+"""
