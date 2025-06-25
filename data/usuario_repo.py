@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Any, Optional
 from data.usuario_model import Usuario
 from data.usuario_sql import *
 from util import get_connection
@@ -14,41 +14,31 @@ def criar_tabela_usuario() -> bool:
         print(f"Erro ao criar tabela de categorias: {e}")
         return False
 
-
-def inserir_usuario(usuario: Usuario) -> Optional[int]:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(INSERIR, (
-            usuario.nome,
-            usuario.email,
-            usuario.senha,
-            usuario.telefone
-            ))
-        return cursor.lastrowid
+def inserir_usuario(usuario: Usuario, cursor: Any) -> Optional[int]:
+    cursor.execute(INSERIR, (
+        usuario.nome,
+        usuario.email,
+        usuario.senha,
+        usuario.telefone))
+    return cursor.lastrowid
 
 
-def atualizar_usuario(usuario: Usuario) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(ATUALIZAR, (
-            usuario.nome,
-            usuario.email,
-            usuario.telefone,
-            usuario.id_usuario))
-        return cursor.rowcount > 0
+def atualizar_usuario(usuario: Usuario, cursor: Any) -> bool:
+    cursor.execute(ATUALIZAR, (
+        usuario.nome,
+        usuario.email,
+        usuario.telefone,
+        usuario.id_usuario))
+    return (cursor.rowcount > 0)
     
-def atualizar_senha(id_usuario:int, senha:str) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(ATUALIZAR_SENHA, (senha, id_usuario))
-        return cursor.rowcount > 0
+def atualizar_senha_usuario(id_usuario: int, senha: str, cursor: Any) -> bool:
+    cursor.execute(ATUALIZAR_SENHA, (senha, id_usuario))
+    return (cursor.rowcount > 0)
 
 
-def excluir_usuario(id_usuario: int) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(EXCLUIR, (id_usuario,))
-        return (cursor.rowcount > 0)
+def excluir_usuario(id_usuario: int, cursor: Any) -> bool:
+    cursor.execute(EXCLUIR, (id_usuario,))
+    return (cursor.rowcount > 0)
 
 def obter_todos_usuarios() -> list[Usuario]:
     with get_connection() as conn:
@@ -61,10 +51,10 @@ def obter_todos_usuarios() -> list[Usuario]:
                 nome=row["nome"], 
                 email=row["email"], 
                 senha=row["senha"], 
-                telefone=row["telefone"])
-            for row in rows]
+                telefone=row["telefone"]) 
+                for row in rows]
         return usuarios
-    
+
 def obter_usuario_por_id(id_usuario: int) -> Optional[Usuario]:
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -77,5 +67,3 @@ def obter_usuario_por_id(id_usuario: int) -> Optional[Usuario]:
             senha=row["senha"], 
             telefone=row["telefone"])
         return usuario
-
-
