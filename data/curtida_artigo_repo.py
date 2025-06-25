@@ -1,14 +1,20 @@
 from typing import Optional, List
 from data.curtida_artigo_model import CurtidaArtigo
 from data.curtida_artigo_sql import *
-from data.util import get_connection
+from data.postagem_artigo_model import PostagemArtigo
+from data.usuario_model import Usuario
+from util import get_connection
 
 
 def criar_tabela() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 
 def inserir(curtida: CurtidaArtigo) -> bool:
@@ -31,8 +37,8 @@ def obter_todos() -> List[CurtidaArtigo]:
         cursor.execute(OBTER_TODOS)
         rows = cursor.fetchall()
         return [CurtidaArtigo(
-            id_usuario=row["id_usuario"],
-            id_artigo=row["id_artigo"],
+            usuario=Usuario(id=row["id_usuario"],nome=row["nome_usuario"]),
+            artigo=PostagemArtigo(id=row["id_artigo"], nome=row["titulo_artigo"]),
             data_curtida=row["data_curtida"]
         ) for row in rows]
 
@@ -44,8 +50,8 @@ def obter_por_id(id_usuario: int, id_postagem_artigo: int) -> Optional[CurtidaAr
         row = cursor.fetchone()
         if row:
             return CurtidaArtigo(
-                id_usuario=row["id_usuario"],
-                id_artigo=row["id_artigo"],
+                usuario=Usuario(id=row["id_usuario"],nome=row["nome_usuario"]),
+                artigo=PostagemArtigo(id=row["id_artigo"], nome=row["titulo_artigo"]), #verificar o nome do campo titulo na tabela postagem art.
                 data_curtida=row["data_curtida"]
             )
         return None

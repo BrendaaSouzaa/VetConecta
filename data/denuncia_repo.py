@@ -1,14 +1,18 @@
 from typing import Optional, List
 from data.denuncia_model import Denuncia
 from data.denuncia_sql import *
-from data.util import get_connection
+from util import get_connection
 
 
 def criar_tabela_denuncia() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 
 def inserir_denuncia(denuncia: Denuncia) -> Optional[int]:

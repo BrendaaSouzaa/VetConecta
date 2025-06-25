@@ -2,14 +2,19 @@ from typing import Optional, List
 from data.categoria_artigo_model import CategoriaArtigo
 from data.postagem_artigo_model import PostagemArtigo
 from data.postagem_artigo_sql import *
-from data.util import get_connection
+from util import get_connection
+from data.veterinario_model import Veterinario
 
 
 def criar_tabela() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 
 def inserir(postagem: PostagemArtigo) -> Optional[int]:
@@ -30,7 +35,7 @@ def atualizar(postagem: PostagemArtigo) -> bool:
         cursor.execute(ATUALIZAR, (
             postagem.titulo,
             postagem.conteudo,
-            postagem.categoria_artigo.id,
+            postagem.categoria_artigo .id,
             postagem.visualizacoes,
             postagem.id
         ))
@@ -51,10 +56,10 @@ def obter_todos() -> List[PostagemArtigo]:
         rows = cursor.fetchall()
         return [PostagemArtigo(
             id=row["id"],
-            id_veterinario=row["id_veterinario"],
+            veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome_veterinario"]),
             titulo=row["titulo"],
             conteudo=row["conteudo"],
-            categoria=CategoriaArtigo(id=row["categoria_id"],),
+            categoria=CategoriaArtigo(id=row["categoria_id"], nome_categoria=row["nome_categoria"]),
             data_publicacao=row["data_publicacao"],
             visualizacoes=row["visualizacoes"]
         ) for row in rows]
@@ -68,10 +73,10 @@ def obter_por_id(id: int) -> Optional[PostagemArtigo]:
         if row:
             return PostagemArtigo(
                 id=row["id"],
-                id_veterinario=row["id_veterinario"],
+                veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome_veterinario"]),
                 titulo=row["titulo"],
                 conteudo=row["conteudo"],
-                categoria=CategoriaArtigo(id=row["categoria_id"],),
+                categoria=CategoriaArtigo(id=row["categoria_id"], nome_categoria=row["nome_categoria"]),
                 data_publicacao=row["data_publicacao"],
                 visualizacoes=row["visualizacoes"]
             )

@@ -1,17 +1,20 @@
 from typing import Optional, List
 from data.verificacao_crmv_model import VerificacaoCRMV
 from data.verificacao_crmv_sql import *
-from data.util import get_connection
+from util import get_connection
 from data.veterinario_model import Veterinario
 from data.administrador_model import Administrador
 
 
 def criar_tabela() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
-
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 def inserir(verificacao: VerificacaoCRMV) -> Optional[int]:
     with get_connection() as conn:

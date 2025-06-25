@@ -1,14 +1,19 @@
 from typing import Optional, List
 from data.postagem_feed_model import PostagemFeed
 from data.postagem_feed_sql import *
-from data.util import get_connection
+from data.tutor_model import Tutor
+from util import get_connection
 
 
 def criar_tabela() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 
 def inserir(postagem: PostagemFeed) -> Optional[int]:
@@ -46,7 +51,7 @@ def obter_todos() -> List[PostagemFeed]:
         rows = cursor.fetchall()
         return [PostagemFeed(
                 id_postagem_feed=row["id_postagem_feed"],
-                id_tutor=row["id_tutor"],
+                tutor=Tutor(id=row["id_tutor"], nome=row["nome_tutor"]),
                 imagem=row["imagem"],
                 descricao=row["descricao"],
                 data_postagem=row["data_postagem"]
@@ -61,7 +66,7 @@ def obter_por_id(id_postagem_feed: int) -> Optional[PostagemFeed]:
         if row:
             return PostagemFeed(
                 id_postagem_feed=row["id_postagem_feed"],
-                id_tutor=row["id_tutor"],
+                tutor=Tutor(id=row["id_tutor"], nome=row["nome_tutor"]),
                 imagem=row["imagem"],
                 descricao=row["descricao"],
                 data_postagem=row["data_postagem"]

@@ -32,7 +32,7 @@ u.telefone,
 v.crmv, 
 v.bio
 FROM veterinario v
-INNER JOIN usuario u ON v.id_usuario = u.id
+INNER JOIN usuario u ON v.id_veterinario = u.id_usuario
 ORDER BY v.id_veterinario;
 """
 
@@ -45,23 +45,8 @@ u.telefone,
 v.crmv,
 v.bio
 FROM veterinario v
-INNER JOIN usuario u ON v.id_usuario = u.id
+INNER JOIN usuario u ON v.id_veterinario = u.id_usuario
 WHERE v.id_veterinario = ?;
 """
 
 
-# OBTER_VETERINARIOS_VERIFICADOS = """
-# SELECT u.nome, u.email, u.telefone, v.crmv, v.bio
-# FROM veterinario v
-# JOIN usuario u ON v.id_veterinario = u.id_usuario
-# WHERE v.verificado = 1
-# ORDER BY u.nome;
-# """
-
-# OBTER_VETERINARIOS_NAO_VERIFICADOS = """
-# SELECT u.nome, u.email, u.telefone, v.crmv, v.bio
-# FROM veterinario v
-# JOIN usuario u ON v.id_veterinario = u.id_usuario
-# WHERE v.verificado = 0
-# ORDER BY u.nome;
-# """

@@ -1,15 +1,19 @@
 from typing import Optional, List
 from data.tutor_model import Tutor
-from data.tutor_sql as tutor_sql
-from data.usuario_sql as usuario_sql
-from data.util import get_connection
+import data.tutor_sql as tutor_sql
+import data.usuario_sql as usuario_sql
+from util import get_connection
 
   
 def criar_tabela_tutor() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return cursor.rowcount > 0
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(tutor_sql.CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 def inserir_tutor(tutor: Tutor) -> Optional[int]:
     with get_connection() as conn:
@@ -28,7 +32,7 @@ def inserir_tutor(tutor: Tutor) -> Optional[int]:
 def atualizar_tutor(tutor: Tutor) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(ATUALIZAR, (
+        cursor.execute(tutor_sql.ATUALIZAR, (
             tutor.telefone, 
             tutor.endereco, 
             tutor.id_tutor
@@ -39,13 +43,13 @@ def atualizar_tutor(tutor: Tutor) -> bool:
 def excluir_tutor(id_tutor: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(EXCLUIR, (id_tutor,))
+        cursor.execute(tutor_sql.EXCLUIR, (id_tutor,))
         return (cursor.rowcount > 0)
 
 def obter_todos_tutores() -> list[Tutor]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(tutor_sql.OBTER_TODOS)
         rows = cursor.fetchall()
         tutores = [
             Tutor(
@@ -58,7 +62,7 @@ def obter_todos_tutores() -> list[Tutor]:
 def obter_tutor_por_id(id_tutor: int) -> Optional[Tutor]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_tutor,))
+        cursor.execute(tutor_sql.OBTER_POR_ID, (id_tutor,))
         row = cursor.fetchone()
         tutor = Tutor(
                 id_tutor=row["id_tutor"], 

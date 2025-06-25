@@ -35,7 +35,7 @@ SELECT
     ca.data_curtida
 FROM curtida_artigo ca
 INNER JOIN usuario u ON ca.id_usuario = u.id_usuario
-INNER JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
+INNER JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id
 ORDER BY ca.data_curtida DESC;
 """
 
@@ -48,6 +48,6 @@ SELECT
     ca.data_curtida
 FROM curtida_artigo ca
 INNER JOIN usuario u ON ca.id_usuario = u.id_usuario
-INNER JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id_artigo
+INNER JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id
 WHERE ca.id_usuario = ? AND ca.id_postagem_artigo = ?;
 """

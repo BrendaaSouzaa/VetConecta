@@ -3,8 +3,7 @@ CREATE TABLE IF NOT EXISTS administrador (
     id_admin INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    senha CHAR(8),
-    FOREIGN KEY (id_admin) REFERENCES usuario(id_usuario)
+    senha CHAR(8) NOT NULL,
 );
 """
 
@@ -16,6 +15,11 @@ VALUES (?, ?, ?);
 ATUALIZAR = """
 UPDATE administrador 
 SET nome = ?, email = ?, senha = ?
+WHERE id_admin = ?;
+"""
+ATUALIZAR_SENHA = """
+UPDATE administrador
+SET senha = ?
 WHERE id_admin = ?;
 """
 

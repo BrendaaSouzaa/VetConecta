@@ -1,21 +1,24 @@
-from typing import Optional, List
+from typing import Any, Optional, List
 from data.administrador_model import Administrador
 from data.administrador_sql import *
-from data.util import get_connection
+from util import get_connection
 
 
 def criar_tabela_administrador() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de administrador: {e}")
+        return False
 
-
-def inserir_administrador(admin: Administrador) -> bool:
+def inserir_administrador(admin: Administrador) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (admin.nome, admin.email, admin.senha))
-        return cursor.rowcount > 0
+        return cursor.lastrowid
 
 
 def atualizar_administrador(admin: Administrador) -> bool:
@@ -23,7 +26,12 @@ def atualizar_administrador(admin: Administrador) -> bool:
         cursor = conn.cursor()
         cursor.execute(ATUALIZAR, (admin.nome, admin.email, admin.senha, admin.id_admin))
         return cursor.rowcount > 0
-
+    
+def atualizar_senha(id_admin: int, nova_senha: str) -> bool:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(ATUALIZAR_SENHA, (nova_senha, id_admin))
+        return cursor.rowcount > 0
 
 def excluir_administrador(id_admin: int) -> bool:
     with get_connection() as conn:
@@ -40,9 +48,9 @@ def obter_todos_administradores() -> List[Administrador]:
         return [Administrador(**row) for row in rows]
 
 
-def obter_administrador_por_id(id_usuario: int) -> Optional[Administrador]:
+def obter_administrador_por_id(id_admin: int) -> Optional[Administrador]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_usuario,))
+        cursor.execute(OBTER_POR_ID, (id_admin,))
         row = cursor.fetchone()
         return Administrador(**row) if row else None

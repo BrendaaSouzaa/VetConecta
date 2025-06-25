@@ -32,6 +32,7 @@ OBTER_TODOS = """
 SELECT 
     p.id,
     p.id_veterinario,
+    v.nome AS nome_veterinario,
     p.titulo,
     p.conteudo,
     p.id_categoria_artigo,
@@ -40,6 +41,7 @@ SELECT
     p.visualizacoes
 FROM postagem_artigo p
 JOIN categoria_artigo c ON p.id_categoria_artigo = c.id
+JOIN veterinario v ON p.id_veterinario = v.id
 ORDER BY p.data_publicacao DESC;
 """
 
@@ -47,6 +49,7 @@ OBTER_POR_ID = """
 SELECT 
     p.id,
     p.id_veterinario,
+    v.nome AS nome_veterinario,
     p.titulo,
     p.conteudo,
     p.id_categoria_artigo,
@@ -55,5 +58,6 @@ SELECT
     p.visualizacoes
 FROM postagem_artigo p
 JOIN categoria_artigo c ON p.id_categoria_artigo = c.id
+JOIN veterinario v ON p.id_veterinario = v.id
 WHERE p.id = ?;
 """

@@ -5,7 +5,7 @@ from data.veterinario_model import Veterinario
 @dataclass
 class PostagemArtigo:
     id: int
-    id_veterinario: Veterinario
+    veterinario: Veterinario
     titulo: str
     conteudo: str
     categoria_artigo: CategoriaArtigo

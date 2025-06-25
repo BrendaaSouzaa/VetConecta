@@ -2,15 +2,19 @@ from typing import Optional, List
 from data.seguida_model import Seguida
 from data.seguida_sql import *
 from data.tutor_model import Tutor
-from data.util import get_connection
+from util import get_connection
 from data.veterinario_model import Veterinario
 
 
 def criar_tabela() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 
 def inserir(seguida: Seguida) -> bool:

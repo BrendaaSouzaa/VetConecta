@@ -1,14 +1,17 @@
 from typing import Optional, List
 from data.resposta_chamado_model import RespostaChamado
 from data.resposta_chamado_sql import *
-from data.util import get_connection
+from util import get_connection
 
 def criar_tabelas() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_RESPOSTA)
-        return True
-
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 def inserir_resposta(resposta: RespostaChamado) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()

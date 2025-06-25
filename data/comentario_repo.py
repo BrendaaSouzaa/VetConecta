@@ -3,22 +3,26 @@ from data.comentario_model import Comentario
 from data.comentario_sql import *
 from data.postagem_artigo_model import PostagemArtigo
 from data.usuario_model import Usuario
-from data.util import get_connection
+from util import get_connection
 
 
 def criar_tabela() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 
 def inserir(comentario: Comentario) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR, (
-            comentario.id_usuario,
-            comentario.id_artigo,
+            comentario.usuario,
+            comentario.artigo,
             comentario.texto
         ))
         return cursor.lastrowid

@@ -31,30 +31,30 @@ OBTER_TODOS = """
 SELECT
     d.id_denuncia,
     d.id_usuario,
-    d.id_admin,
-    d.motivo,
-    d.data_denuncia,
-    d.status,
-    u.nome AS nome_usuario
-FROM denuncia d
-INNER JOIN usuario u ON d.id_usuario = u.id_usuario
-INNER JOIN administrador a ON d.id_admin = a.id_admin
-ORDER BY d.data_denuncia DESC;
-"""
-
-OBTER_POR_ID = """
-SELECT
-    d.id_denuncia,
-    d.id_usuario,
-    d.id_admin,
-    d.motivo,
-    d.data_denuncia,
-    d.status,
     u.nome AS nome_usuario,
-    a.nome AS nome_admin
+    d.id_admin,
+    a.nome AS nome_admin,
+    d.motivo,
+    d.data_denuncia,
+    d.status
 FROM denuncia d
 INNER JOIN usuario u ON d.id_usuario = u.id_usuario
 INNER JOIN administrador a ON d.id_admin = a.id_admin
 WHERE d.id_denuncia = ?;
 """
 
+OBTER_POR_ID = """
+SELECT
+    d.id_denuncia,
+    d.id_usuario,
+    u.nome AS nome_usuario,
+    d.id_admin,
+    a.nome AS nome_admin,
+    d.motivo,
+    d.data_denuncia,
+    d.status
+FROM denuncia d
+INNER JOIN usuario u ON d.id_usuario = u.id_usuario
+INNER JOIN administrador a ON d.id_admin = a.id_admin
+WHERE d.id_denuncia = ?;
+"""

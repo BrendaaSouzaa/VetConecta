@@ -1,14 +1,18 @@
 from typing import Optional, List
 from data.categoria_artigo_model import CategoriaArtigo
 from data.categoria_artigo_sql import *
-from data.util import get_connection
+from util import get_connection
 
 
 def criar_tabela_categoria_artigo() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA)
-        return True
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela de categorias: {e}")
+        return False
 
 
 def inserir_categoria(categoria: CategoriaArtigo) -> Optional[int]:

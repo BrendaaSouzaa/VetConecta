@@ -27,7 +27,9 @@ SELECT
     c.id,
     c.texto,
     c.data_comentario,
+    u.id_usuario,
     u.nome AS nome_usuario,
+    a.id AS id_artigo,
     a.titulo AS titulo_artigo
 FROM comentario c
 JOIN usuario u ON c.id_usuario = u.id_usuario
@@ -40,7 +42,9 @@ SELECT
     c.texto,
     c.data_comentario,
     c.data_moderacao,
+    u.id_usuario,
     u.nome AS nome_usuario,
+    a.id AS id_artigo,
     a.titulo AS titulo_artigo
 FROM comentario c
 JOIN usuario u ON c.id_usuario = u.id_usuario
