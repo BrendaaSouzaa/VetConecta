@@ -15,16 +15,18 @@ DELETE FROM tutor
 WHERE id_tutor = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT 
-t.id_tutor,
-u.nome, 
-u.email, 
-u.telefone
+    t.id_tutor,
+    u.nome, 
+    u.email, 
+    u.telefone
 FROM tutor t
 INNER JOIN usuario u ON t.id_tutor = u.id_usuario
-ORDER BY u.nome = ?;
+ORDER BY u.nome
+LIMIT ? OFFSET ?;
 """
+
 
 OBTER_POR_ID = """
 SELECT 

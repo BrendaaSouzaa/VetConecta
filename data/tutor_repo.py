@@ -34,17 +34,21 @@ def excluir_tutor(id_tutor: int) -> bool:
         cursor.execute(tutor_sql.EXCLUIR, (id_tutor,))
         return (cursor.rowcount > 0)
 
-def obter_todos_tutores() -> list[Tutor]:
+def obter_todos_tutores_paginado(limite: int, offset: int) -> list[Tutor]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(tutor_sql.OBTER_TODOS)
+        cursor.execute(tutor_sql.OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
         tutores = [
             Tutor(
-                id_tutor=row["id_tutor"], 
-                telefone=row["telefone"])
+                id_tutor=row["id_tutor"],
+                nome=row["nome"],
+                email=row["email"],
+                telefone=row["telefone"]
+            )
             for row in rows]
         return tutores
+
     
 def obter_tutor_por_id(id_tutor: int) -> Optional[Tutor]:
     with get_connection() as conn:
