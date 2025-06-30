@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS administrador (
     id_admin INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    senha CHAR(8) NOT NULL,
+    senha CHAR(8) NOT NULL
 );
 """
 
@@ -28,14 +28,17 @@ DELETE FROM administrador
 WHERE id_admin = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT * 
 FROM administrador 
-ORDER BY id_admin;
+ORDER BY id_admin
+LIMIT ? OFFSET ?;
 """
 
-OBTER_POR_ID = """
+OBTER_POR_ID_PAGINADO= """
 SELECT * 
 FROM administrador 
-WHERE id_admin = ?;
+WHERE id_admin >= ?
+ORDER BY id_admin
+LIMIT ? OFFSET ?;
 """

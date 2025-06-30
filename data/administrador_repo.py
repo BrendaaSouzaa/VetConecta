@@ -40,17 +40,17 @@ def excluir_administrador(id_admin: int) -> bool:
         return cursor.rowcount > 0
 
 
-def obter_todos_administradores() -> List[Administrador]:
+def obter_administradores_paginado(offset: int, limite: int) -> List[Administrador]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
         return [Administrador(**row) for row in rows]
 
 
-def obter_administrador_por_id(id_admin: int) -> Optional[Administrador]:
+def obter_administradores_por_id_paginado(id_minimo: int, offset: int, limite: int) -> List[Administrador]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_POR_ID, (id_admin,))
-        row = cursor.fetchone()
-        return Administrador(**row) if row else None
+        cursor.execute(OBTER_POR_ID_PAGINADO, (id_minimo, limite, offset))
+        rows = cursor.fetchall()
+        return [Administrador(**row) for row in rows]

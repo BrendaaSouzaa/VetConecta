@@ -17,13 +17,18 @@ EXCLUIR = """
 DELETE FROM categoria_artigo 
 WHERE id = ?;
 """
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT * 
 FROM categoria_artigo 
-ORDER BY nome;
+ORDER BY nome
+LIMIT ? OFFSET ?;
 """
-OBTER_POR_ID = """
+
+OBTER_POR_ID_PAGINADO = """
 SELECT * 
 FROM categoria_artigo 
-WHERE id = ?;
+WHERE id >= ?
+ORDER BY nome
+LIMIT ? OFFSET ?;
 """
+
