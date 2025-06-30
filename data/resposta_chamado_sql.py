@@ -25,11 +25,13 @@ DELETE FROM resposta_chamado
 WHERE id = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT * 
 FROM resposta_chamado 
-ORDER BY data DESC;
+ORDER BY data DESC
+LIMIT ? OFFSET ?;
 """
+
 
 OBTER_POR_ID = """
 SELECT * 

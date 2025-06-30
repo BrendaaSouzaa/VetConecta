@@ -26,7 +26,7 @@ DELETE FROM verificacao_crmv
 WHERE id_veterinario = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT 
     v.id,
     v.data_verificacao,
@@ -34,12 +34,15 @@ SELECT
     u.id_usuario AS id_veterinario,
     u.nome AS nome_veterinario,
     a.id_admin,
-    a.nome AS nome_admin
+    a.nome AS nome_admin,
+    a.email AS email_admin
 FROM verificacao_crmv v
 JOIN usuario u ON v.id_veterinario = u.id_usuario
 JOIN administrador a ON v.id_admin = a.id_admin
-ORDER BY v.data_verificacao DESC;
+ORDER BY v.data_verificacao DESC
+LIMIT ? OFFSET ?;
 """
+
 
 OBTER_POR_ID = """
 SELECT 

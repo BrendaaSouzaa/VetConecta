@@ -40,10 +40,10 @@ def excluir_usuario(id_usuario: int, cursor: Any) -> bool:
     cursor.execute(EXCLUIR, (id_usuario,))
     return (cursor.rowcount > 0)
 
-def obter_todos_usuarios() -> list[Usuario]:
+def obter_todos_usuarios_paginado(limite: int, offset: int) -> list[Usuario]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
         usuarios = [
             Usuario(
@@ -51,8 +51,9 @@ def obter_todos_usuarios() -> list[Usuario]:
                 nome=row["nome"], 
                 email=row["email"], 
                 senha=row["senha"], 
-                telefone=row["telefone"]) 
-                for row in rows]
+                telefone=row["telefone"]
+            ) 
+            for row in rows]
         return usuarios
 
 def obter_usuario_por_id(id_usuario: int) -> Optional[Usuario]:

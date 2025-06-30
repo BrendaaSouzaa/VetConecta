@@ -22,11 +22,12 @@ EXCLUIR = """
 DELETE FROM comentario 
 WHERE id = ?;
 """
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT 
     c.id,
     c.texto,
     c.data_comentario,
+    c.data_moderacao,
     u.id_usuario,
     u.nome AS nome_usuario,
     a.id AS id_artigo,
@@ -34,8 +35,11 @@ SELECT
 FROM comentario c
 JOIN usuario u ON c.id_usuario = u.id_usuario
 JOIN postagem_artigo a ON c.id_artigo = a.id
-ORDER BY c.data_comentario DESC;
+ORDER BY c.data_comentario DESC
+LIMIT ? OFFSET ?;
 """
+
+
 OBTER_POR_ID = """
 SELECT 
     c.id,

@@ -46,19 +46,22 @@ def excluir(id: int) -> bool:
         return cursor.rowcount > 0
 
 
-def obter_todos() -> List[Comentario]:
+def obter_todos_paginado(limite: int, offset: int) -> List[Comentario]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
-        return [Comentario(
-            id=row["id"],
-            id_usuario=Usuario(id_usuario=row["id_usuario"], nome=row["nome_usuario"]),
-            id_artigo=PostagemArtigo(id=row["id_artigo"], titulo=row["titulo_artigo"]),
-            texto=row["texto"],
-            data_comentario=row["data_comentario"],
-            data_moderacao=row["data_moderacao"])
+        return [
+            Comentario(
+                id=row["id"],
+                id_usuario=Usuario(id_usuario=row["id_usuario"], nome=row["nome_usuario"]),
+                id_artigo=PostagemArtigo(id=row["id_artigo"], titulo=row["titulo_artigo"]),
+                texto=row["texto"],
+                data_comentario=row["data_comentario"],
+                data_moderacao=row["data_moderacao"]
+            )
             for row in rows]
+
 
 
 def obter_por_id(id: int) -> Optional[Comentario]:

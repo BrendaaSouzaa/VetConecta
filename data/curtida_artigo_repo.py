@@ -31,16 +31,18 @@ def excluir_curtida(id_usuario: int, id_postagem_artigo: int) -> bool:
         return cursor.rowcount > 0
 
 
-def obter_todos() -> List[CurtidaArtigo]:
+def obter_todos_paginado(limite: int, offset: int) -> List[CurtidaArtigo]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
-        return [CurtidaArtigo(
-            usuario=Usuario(id=row["id_usuario"],nome=row["nome_usuario"]),
-            artigo=PostagemArtigo(id=row["id_artigo"], nome=row["titulo_artigo"]),
-            data_curtida=row["data_curtida"]
-        ) for row in rows]
+        return [
+            CurtidaArtigo(
+                usuario=Usuario(id=row["id_usuario"], nome=row["nome_usuario"]),
+                artigo=PostagemArtigo(id=row["id_postagem_artigo"], titulo=row["titulo_artigo"]),
+                data_curtida=row["data_curtida"]
+            )
+            for row in rows]
 
 
 def obter_por_id(id_usuario: int, id_postagem_artigo: int) -> Optional[CurtidaArtigo]:

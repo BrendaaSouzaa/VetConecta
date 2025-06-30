@@ -1,20 +1,14 @@
 CRIAR_TABELA = """
 CREATE TABLE IF NOT EXISTS tutor (
     id_tutor INTEGER PRIMARY KEY,
-    
     FOREIGN KEY (id_tutor) REFERENCES usuario(id_usuario)
 );
 """
-# INSERIR = """
-# INSERT INTO tutor (telefone, endereco)
-# VALUES (?, ?);
-# """
 
-# ATUALIZAR = """
-# UPDATE tutor
-# SET telefone = ?, endereco = ?
-# WHERE id_tutor = ?;
-# """
+INSERIR = """
+INSERT INTO tutor (id_tutor)
+VALUES (?);
+"""
 
 EXCLUIR = """
 DELETE FROM tutor 

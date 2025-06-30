@@ -44,19 +44,23 @@ def excluir(id_postagem_feed: int) -> bool:
         cursor.execute(EXCLUIR, (id_postagem_feed,))
         return cursor.rowcount > 0
 
-def obter_todos() -> List[PostagemFeed]:
+def obter_todos_paginado(limite: int, offset: int) -> List[PostagemFeed]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
-        return [PostagemFeed(
+        return [
+            PostagemFeed(
                 id_postagem_feed=row["id_postagem_feed"],
                 tutor=Tutor(id=row["id_tutor"], nome=row["nome_tutor"]),
                 imagem=row["imagem"],
                 descricao=row["descricao"],
                 data_postagem=row["data_postagem"]
             )
-            for row in rows]
+            for row in rows
+        ]
+
+
 
 def obter_por_id(id_postagem_feed: int) -> Optional[PostagemFeed]:
     with get_connection() as conn:

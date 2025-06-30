@@ -49,20 +49,23 @@ def excluir(id: int) -> bool:
         return cursor.rowcount > 0
 
 
-def obter_todos() -> List[PostagemArtigo]:
+def obter_todos_paginado(limite: int, offset: int) -> List[PostagemArtigo]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
-        return [PostagemArtigo(
-            id=row["id"],
-            veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome_veterinario"]),
-            titulo=row["titulo"],
-            conteudo=row["conteudo"],
-            categoria=CategoriaArtigo(id=row["categoria_id"], nome_categoria=row["nome_categoria"]),
-            data_publicacao=row["data_publicacao"],
-            visualizacoes=row["visualizacoes"]
-        ) for row in rows]
+        return [
+            PostagemArtigo(
+                id=row["id"],
+                veterinario=Veterinario(id=row["id_veterinario"], nome=row["nome_veterinario"]),
+                titulo=row["titulo"],
+                conteudo=row["conteudo"],
+                categoria=CategoriaArtigo(id=row["id_categoria_artigo"], nome_categoria=row["nome_categoria"]),
+                data_publicacao=row["data_publicacao"],
+                visualizacoes=row["visualizacoes"]
+            )
+            for row in rows]
+
 
 
 def obter_por_id(id: int) -> Optional[PostagemArtigo]:

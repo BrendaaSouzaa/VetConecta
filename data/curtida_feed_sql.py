@@ -20,7 +20,7 @@ WHERE id_usuario = ? AND id_postagem_feed = ?;
 """
 
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT 
     cf.id_usuario,
     u.nome AS nome_usuario,
@@ -31,7 +31,8 @@ SELECT
 FROM curtida_feed cf
 JOIN usuario u ON cf.id_usuario = u.id_usuario
 JOIN postagem_feed pf ON cf.id_postagem_feed = pf.id_postagem_feed
-ORDER BY cf.data_curtida DESC;
+ORDER BY cf.data_curtida DESC
+LIMIT ? OFFSET ?;
 """
 
 OBTER_POR_ID = """

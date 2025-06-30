@@ -33,16 +33,19 @@ def excluir(id_veterinario: int, id_tutor: int) -> bool:
         return cursor.rowcount > 0
 
 
-def obter_todos() -> List[Seguida]:
+def obter_todos_paginado(limite: int, offset: int) -> List[Seguida]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
-        return [Seguida(
-            id_veterinario=Veterinario(id_usuario=row["id_veterinario"], nome=row["nome_veterinario"]),
-            id_tutor=Tutor(id_usuario=row["id_tutor"], nome=row["nome_tutor"]),
-            data_inicio=row["data_inicio"])
+        return [
+            Seguida(
+                id_veterinario=Veterinario(id_usuario=row["id_veterinario"], nome=row["nome_veterinario"]),
+                id_tutor=Tutor(id_usuario=row["id_tutor"], nome=row["nome_tutor"]),
+                data_inicio=row["data_inicio"]
+            )
             for row in rows]
+
 
 
 def obter_por_id(id_veterinario: int, id_tutor: int) -> Optional[Seguida]:

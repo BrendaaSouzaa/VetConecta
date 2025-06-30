@@ -17,6 +17,7 @@ UPDATE administrador
 SET nome = ?, email = ?, senha = ?
 WHERE id_admin = ?;
 """
+
 ATUALIZAR_SENHA = """
 UPDATE administrador
 SET senha = ?
@@ -35,10 +36,8 @@ ORDER BY id_admin
 LIMIT ? OFFSET ?;
 """
 
-OBTER_POR_ID_PAGINADO= """
+OBTER_POR_ID = """
 SELECT * 
 FROM administrador 
-WHERE id_admin >= ?
-ORDER BY id_admin
-LIMIT ? OFFSET ?;
+WHERE id_admin = ?;
 """

@@ -46,10 +46,10 @@ def excluir_chamado(id_chamado: int) -> bool:
         return cursor.rowcount > 0
 
 
-def obter_todos_chamados() -> List[Chamado]:
+def obter_todos_chamados_paginado(limite: int, offset: int) -> List[Chamado]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
         return [
             Chamado(
@@ -61,8 +61,7 @@ def obter_todos_chamados() -> List[Chamado]:
                 status=row["status"],
                 data=row["data"]
             )
-            for row in rows
-        ]
+            for row in rows]
 
 
 def obter_chamado_por_id(id_chamado: int) -> Optional[Chamado]:

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     telefone CHAR(11) NOT NULL,
 );
 """
+
 INSERIR = """
 INSERT INTO usuario (nome, email, senha, telefone)
 VALUES (?, ?, ?, ?);
@@ -27,15 +28,19 @@ EXCLUIR = """
 DELETE FROM usuario 
 WHERE id_usuario = ?;
 """
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT 
-id_usuario, 
-nome, 
-email, 
-telefone
+    id_usuario, 
+    nome, 
+    email, 
+    senha, 
+    telefone
 FROM usuario 
-ORDER BY nome;
+ORDER BY nome
+LIMIT ? OFFSET ?;
 """
+
+
 OBTER_POR_ID = """
 SELECT 
 id_usuario, 

@@ -28,7 +28,7 @@ DELETE FROM postagem_artigo
 WHERE id = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT 
     p.id,
     p.id_veterinario,
@@ -36,14 +36,16 @@ SELECT
     p.titulo,
     p.conteudo,
     p.id_categoria_artigo,
-    c.nome AS nome_categoria_artigo,
+    c.nome AS nome_categoria,
     p.data_publicacao,
     p.visualizacoes
 FROM postagem_artigo p
 JOIN categoria_artigo c ON p.id_categoria_artigo = c.id
 JOIN veterinario v ON p.id_veterinario = v.id
-ORDER BY p.data_publicacao DESC;
+ORDER BY p.data_publicacao DESC
+LIMIT ? OFFSET ?;
 """
+
 
 OBTER_POR_ID = """
 SELECT 

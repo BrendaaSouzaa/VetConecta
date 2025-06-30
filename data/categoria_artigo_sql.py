@@ -24,11 +24,9 @@ ORDER BY nome
 LIMIT ? OFFSET ?;
 """
 
-OBTER_POR_ID_PAGINADO = """
+OBTER_POR_ID = """
 SELECT * 
 FROM categoria_artigo 
-WHERE id >= ?
-ORDER BY nome
-LIMIT ? OFFSET ?;
+WHERE id = ?;
 """
 

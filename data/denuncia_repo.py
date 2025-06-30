@@ -46,13 +46,13 @@ def excluir_denuncia(id_denuncia: int) -> bool:
         cursor.execute(EXCLUIR, (id_denuncia,))
         return cursor.rowcount > 0
 
-
-def obter_todas_denuncias() -> List[Denuncia]:
+def obter_todas_denuncias_paginadas(limite: int, offset: int) -> List[Denuncia]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODAS_DENUNCIAS_PAGINADAS, (limite, offset))
         rows = cursor.fetchall()
         return [Denuncia(**row) for row in rows]
+
 
 
 def obter_denuncia_por_id(id_denuncia: int) -> Optional[Denuncia]:

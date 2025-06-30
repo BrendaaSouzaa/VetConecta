@@ -46,7 +46,7 @@ class TestAdministradorRepo:
     def test_atualizar_senha(self, test_db):
         # Arrange
         criar_tabela_administrador()
-        admin_teste = Administrador(0, "12345678")
+        admin_teste = Administrador(0, "Admin Teste", "admin@gmail.com", "12345678")
         id_admin_inserido = inserir_administrador(admin_teste)
         # Act
         nova_senha = "87654321"

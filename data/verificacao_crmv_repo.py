@@ -41,19 +41,25 @@ def excluir(id_veterinario: int) -> bool:
         return cursor.rowcount > 0
 
 
-def obter_todos() -> List[VerificacaoCRMV]:
+def obter_todos_paginado(limite: int, offset: int) -> List[VerificacaoCRMV]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
         return [
             VerificacaoCRMV(
                 id=row["id"],
-                veterinario=Veterinario(id_veterinario=row["id_veterinario"]),
-                administrador=Administrador(id_admin=row["id_admin"],nome=row["nome_admin"],email=row["email_admin"]),
+                veterinario=Veterinario(id_veterinario=row["id_veterinario"], nome=row["nome_veterinario"]),
+                administrador=Administrador(
+                    id_admin=row["id_admin"],
+                    nome=row["nome_admin"],
+                    email=row["email_admin"]
+                ),
                 data_verificacao=row["data_verificacao"],
                 status_verificacao=row["status_verificacao"]
-            ) for row in rows]
+            )
+            for row in rows]
+
 
 
 def obter_por_id(id: int) -> Optional[VerificacaoCRMV]:

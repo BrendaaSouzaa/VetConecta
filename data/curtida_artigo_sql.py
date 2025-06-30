@@ -26,7 +26,7 @@ WHERE id_usuario = ?
 AND id_postagem_artigo = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT
     ca.id_usuario,
     u.nome AS nome_usuario,
@@ -36,7 +36,8 @@ SELECT
 FROM curtida_artigo ca
 INNER JOIN usuario u ON ca.id_usuario = u.id_usuario
 INNER JOIN postagem_artigo pa ON ca.id_postagem_artigo = pa.id
-ORDER BY ca.data_curtida DESC;
+ORDER BY ca.data_curtida DESC
+LIMIT ? OFFSET ?;
 """
 
 OBTER_POR_ID = """

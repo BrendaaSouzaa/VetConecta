@@ -19,7 +19,7 @@ DELETE FROM seguida
 WHERE id_veterinario = ? AND id_tutor = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_PAGINADO = """
 SELECT 
   s.id_veterinario,
   v.nome AS nome_veterinario,
@@ -29,8 +29,10 @@ SELECT
 FROM seguida s
 JOIN veterinario v ON s.id_veterinario = v.id_usuario
 JOIN tutor t ON s.id_tutor = t.id_usuario
-ORDER BY s.data_inicio DESC;
+ORDER BY s.data_inicio DESC
+LIMIT ? OFFSET ?;
 """
+
 
 OBTER_POR_ID = """
 SELECT 

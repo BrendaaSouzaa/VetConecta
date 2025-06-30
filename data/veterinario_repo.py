@@ -19,18 +19,8 @@ def criar_tabela_tutor() -> bool:
 def inserir_veterinario(vet: Veterinario) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        usuario=Usuario(0,
-            vet.crmv,
-            vet.verificado,
-            vet.bio)
-        id_usuario = usuario_repo.INSERIR(usuario, cursor)
-        cursor.execute(INSERIR, (
-            id_usuario,
-            vet.crmv,
-            vet.verificado,
-            vet.bio
-            ))
-        return id_usuario
+        cursor.execute(INSERIR,(vet.id_veterinario, vet.crmv, vet.verificado, vet.bio))
+        return (cursor.rowcount > 0)
 
 
 def atualizar_veterinario(vet: Veterinario) -> bool:
@@ -76,6 +66,7 @@ def obter_todos() -> list[Veterinario]:
                 for row in rows]
         return veterinarios
     
+
 def obter_por_id(id_veterinario: int) -> Optional[Veterinario]:
     with get_connection() as conn:
         cursor = conn.cursor()

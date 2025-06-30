@@ -27,7 +27,7 @@ DELETE FROM denuncia
 WHERE id_denuncia = ?;
 """
 
-OBTER_TODOS = """
+OBTER_TODAS_DENUNCIAS_PAGINADAS = """
 SELECT
     d.id_denuncia,
     d.id_usuario,
@@ -40,8 +40,10 @@ SELECT
 FROM denuncia d
 INNER JOIN usuario u ON d.id_usuario = u.id_usuario
 INNER JOIN administrador a ON d.id_admin = a.id_admin
-WHERE d.id_denuncia = ?;
+ORDER BY d.data_denuncia DESC
+LIMIT ? OFFSET ?;
 """
+
 
 OBTER_POR_ID = """
 SELECT

@@ -23,10 +23,10 @@ def inserir_resposta(resposta: RespostaChamado) -> Optional[int]:
         ))
         return cursor.lastrowid
     
-def obter_todas_respostas() -> List[RespostaChamado]:
+def obter_todas_respostas_paginado(limite: int, offset: int) -> List[RespostaChamado]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
         return [
             RespostaChamado(
@@ -38,6 +38,7 @@ def obter_todas_respostas() -> List[RespostaChamado]:
             )
             for row in rows
         ]
+
 
 def obter_resposta_por_id(id_resposta: int) -> Optional[RespostaChamado]:
     with get_connection() as conn:
