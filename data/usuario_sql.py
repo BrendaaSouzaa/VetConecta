@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     nome TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     senha CHAR(8) NOT NULL,
-    telefone CHAR(11) NOT NULL,
+    telefone CHAR(11) NOT NULL
 );
 """
 
