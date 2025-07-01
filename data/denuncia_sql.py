@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS denuncia (
     data_denuncia DATETIME DEFAULT CURRENT_DATE,
     status TEXT NOT NULL CHECK (status IN ('pendente', 'aprovada', 'rejeitada')),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (id_admin) REFERENCES administrador(id)
+    FOREIGN KEY (id_admin) REFERENCES administrador(id_admin)
 );
 """
 

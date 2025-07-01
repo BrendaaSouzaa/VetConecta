@@ -23,17 +23,18 @@ DELETE FROM veterinario
 WHERE id_veterinario = ?;
 """
 
-OBTER_TODOS = """
+OBTER_VETERINARIO_PAGINADO = """
 SELECT
-v.id_veterinario,
-u.nome, 
-u.email, 
-u.telefone, 
-v.crmv, 
-v.bio
+    v.id_veterinario,
+    u.nome,
+    u.email,
+    u.telefone,
+    v.crmv,
+    v.bio
 FROM veterinario v
 INNER JOIN usuario u ON v.id_veterinario = u.id_usuario
-ORDER BY v.id_veterinario;
+ORDER BY v.id_veterinario
+LIMIT ? OFFSET ?;
 """
 
 OBTER_POR_ID = """

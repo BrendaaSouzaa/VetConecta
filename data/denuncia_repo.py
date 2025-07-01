@@ -60,4 +60,12 @@ def obter_denuncia_por_id(id_denuncia: int) -> Optional[Denuncia]:
         cursor = conn.cursor()
         cursor.execute(OBTER_POR_ID, (id_denuncia,))
         row = cursor.fetchone()
-        return Denuncia(**row) if row else None
+        denuncia = Denuncia(
+            id_denuncia=row["id_denuncia"],
+            id_usuario=row["id_usuario"],
+            id_admin=row["id_admin"],
+            motivo = row["motivo"],
+            data_denuncia = row["data_denuncia"],
+            status = row["status"]
+        )
+        return denuncia

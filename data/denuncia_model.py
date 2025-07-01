@@ -6,8 +6,8 @@ from data.usuario_model import Usuario
 @dataclass
 class Denuncia:
     id_denuncia: Optional[int] 
-    usuario: Usuario
-    admin: Administrador
+    id_usuario: int
+    id_admin: int
     motivo: str
     data_denuncia: str
     status: str

@@ -43,7 +43,7 @@ def excluir_administrador(id_admin: int) -> bool:
 def obter_administradores_paginado(offset: int, limite: int) -> List[Administrador]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS_PAGINADO, (limite, offset))
+        cursor.execute(OBTER_ADMINISTRADORES_PAGINADO, (limite, offset))
         rows = cursor.fetchall()
         return [Administrador(**row) for row in rows]
 

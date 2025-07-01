@@ -29,7 +29,7 @@ DELETE FROM administrador
 WHERE id_admin = ?;
 """
 
-OBTER_TODOS_PAGINADO = """
+OBTER_ADMINISTRADORES_PAGINADO = """
 SELECT * 
 FROM administrador 
 ORDER BY id_admin

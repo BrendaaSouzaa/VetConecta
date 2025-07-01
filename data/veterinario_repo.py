@@ -43,15 +43,15 @@ def excluir_veterinario(id_veterinario: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(EXCLUIR, (id_veterinario,))
-        usuario_repo.EXCLUIR(id_usuario, cursor)
+        # usuario_repo.EXCLUIR(id_usuario, cursor)
         return (cursor.rowcount > 0)
     
 
 
-def obter_todos() -> list[Veterinario]:
+def obter_todos(limit: int, offset: int) -> list[Veterinario]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS)
+        cursor.execute(OBTER_VETERINARIO_PAGINADO, (limit, offset))
         rows = cursor.fetchall()
         veterinarios = [
             Veterinario(
@@ -62,8 +62,9 @@ def obter_todos() -> list[Veterinario]:
                 telefone=row["telefone"],
                 crmv=row["crmv"],
                 verificado=row["verificado"],
-                bio=row["bio"])
-                for row in rows]
+                bio=row["bio"]
+            ) for row in rows
+        ]
         return veterinarios
     
 
