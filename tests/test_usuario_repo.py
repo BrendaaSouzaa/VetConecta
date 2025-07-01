@@ -107,3 +107,5 @@ class TestUsuarioRepo:
         assert usuario_db is not None, "O usuário obtido não deveria ser None"
         assert usuario_db.id == id_usuario, "O ID do usuário obtido não confere"
         assert usuario_db.nome == usuario.nome, "O nome do usuário obtido não confere"
+
+        

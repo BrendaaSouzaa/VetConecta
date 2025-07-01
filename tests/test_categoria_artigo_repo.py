@@ -57,11 +57,11 @@ class TestCategoriaArtigoRepo:
         # Arrange
         criar_tabela_categoria_artigo()
         categoria1 = CategoriaArtigo(0, "Categoria 1", "Descrição 1")
-        categoria2 = CategoriaArtigo(0, "Categoria 2", "Descrição 2")
+        categoria2 = CategoriaArtigo(1, "Categoria 2", "Descrição 2")
         inserir_categoria(categoria1)
         inserir_categoria(categoria2)
         # Act
-        categorias = obter_todas_categorias()
+        categorias = obter_categorias_paginado(0, 5)
         # Assert
         assert len(categorias) == 2, "Deveria retornar duas categorias"
         assert categorias[0].nome == "Categoria 1", "O nome da primeira categoria não confere"
