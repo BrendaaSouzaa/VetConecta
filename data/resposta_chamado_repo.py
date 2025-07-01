@@ -12,6 +12,7 @@ def criar_tabelas() -> bool:
     except Exception as e:
         print(f"Erro ao criar tabela de categorias: {e}")
         return False
+    
 def inserir_resposta(resposta: RespostaChamado) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
