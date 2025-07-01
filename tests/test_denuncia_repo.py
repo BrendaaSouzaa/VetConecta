@@ -2,6 +2,8 @@ import os
 import sys
 from data.administrador_model import Administrador
 from data.denuncia_repo import *
+from data.usuario_model import *
+from data.administrador_repo import *
 from data.denuncia_model import Denuncia
 from data.usuario_model import Usuario
 

@@ -23,7 +23,6 @@ def inserir(curtida: CurtidaArtigo) -> bool:
         cursor.execute(INSERIR, (curtida.id_usuario, curtida.id_artigo))
         return cursor.rowcount > 0
 
-
 def excluir_curtida(id_usuario: int, id_postagem_artigo: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
