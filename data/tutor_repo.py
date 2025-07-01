@@ -19,11 +19,13 @@ def criar_tabela_tutor() -> bool:
 
     
 def inserir_tutor(tutor: Tutor) -> Optional[int]:
-    id_tutor = usuario_repo.inserir_usuario(tutor)
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(tutor_sql.INSERIR, (id_tutor,))
-        return (cursor.rowcount > 0)
+        id_tutor = usuario_repo.inserir_usuario(tutor, cursor)
+        cursor.execute(tutor_sql.INSERIR, (tutor.id_usuario, tutor.nome, tutor.email, tutor.senha))
+        return cursor.lastrowid
+
+
 
 def atualizar_tutor(tutor: Tutor) -> bool:
     return usuario_repo.atualizar_usuario(tutor)

@@ -1,5 +1,9 @@
 from data.tutor_model import Tutor
-from data import tutor_repo, usuario_repo
+from data import tutor_repo
+from data.tutor_repo import *
+from data.usuario_repo import *
+from data.usuario_model import Usuario
+
 
 
 class TestTutorRepo:
@@ -9,55 +13,90 @@ class TestTutorRepo:
         # Assert
         assert resultado == True, "A criação da tabela deveria retornar True"
 
-    def test_inserir_tutor(self, test_db, tutor_exemplo):
-        # Arrange: prepara o banco e cria a tabela
+    def test_inserir_tutor(self, test_db):
+        # Arrange
         tutor_repo.criar_tabela_tutor()
-        # Act: insere o tutor de exemplo
-        id_tutor_inserido = tutor_repo.inserir_tutor(tutor_exemplo)
-        # Assert: verifica se o tutor foi inserido corretamente
-        tutor_inserido = tutor_repo.obter_tutor_por_id(id_tutor_inserido)
-        assert tutor_inserido is not None, "O tutor inserido não deveria ser None"
-        assert tutor_inserido.id_usuario > 0, "O tutor inserido deveria ter um ID válido"
-        assert tutor_inserido.nome == tutor_exemplo.nome, "O nome do tutor não confere"
-        assert tutor_inserido.email == tutor_exemplo.email, "O email do tutor não confere"
-        assert tutor_inserido.telefone == tutor_exemplo.telefone, "O telefone não confere"
-        assert tutor_inserido.cpf == tutor_exemplo.cpf, "O CPF não confere"
+
+        tutor_exemplo = Tutor(1, "Tutor Teste", "tutor@gmail.com", "12345678", "123456789")
+            # Act
+        id_tutor_inserido = inserir_tutor(tutor_exemplo)
+            # Assert
+        tutor_obtido = tutor_repo.obter_tutor_por_id(id_tutor_inserido)
+        assert tutor_obtido is not None, "O tutor inserido não deveria ser None"
+        assert tutor_obtido.id_usuario == 1, "O tutor inserido deveria ter um ID igual a 1"
+        assert tutor_obtido.nome == "Tutor Teste", "O nome do tutor inserido não confere"
+        assert tutor_obtido.email == "tutor@gmail.com", "O email do tutor inserido não confere"
+        assert tutor_obtido.senha == "12345678", "A senha do tutor inserido não confere"
+        assert tutor_obtido.telefone == "123456789", "O telefone do tutor inserido não confere"
+
 
 
     def test_atualizar_tutor(self, test_db):
         # Arrange
-        tutor_teste = tutor_model.Tutor(0, "Tutor Teste", "Descrição Teste")
-        id_tutor_inserido = tutor_repo.inserir_tutor(tutor_teste)
+        criar_tabela_tutor()
+        tutor_exemplo = Tutor(1, "Tutor Teste", "tutor@gmail.com", "12345678", "123456789")
+        id_tutor_inserido = inserir_tutor(tutor_exemplo)
         tutor_inserido = tutor_repo.obter_tutor_por_id(id_tutor_inserido)
         # Act
         tutor_inserido.nome = "Tutor Atualizado"
-        tutor_inserido.descricao = "Descrição Atualizada"
-        resultado = tutor_repo.atualizar_tutor(tutor_inserido)
+        tutor_inserido.email = "email Atualizada"
+        tutor_inserido.senha = "12345678"
+        tutor_inserido.telefone = "123456789"
+        resultado = tutor_repo.atualizar_tutor(tutor_obtido)
         # Assert
         assert resultado == True, "A atualização do tutor deveria retornar True"
-        tutor_db = tutor_repo.obter_tutor_por_id(id_tutor_inserido)
-        assert tutor_db.nome == "Tutor Atualizado", "O nome do tutor atualizado não confere"
-        assert tutor_db.descricao == "Descrição Atualizada", "A descrição do tutor atualizado não confere"
+        tutor_obtido = tutor_repo.obter_tutor_por_id(tutor_inserido)
+        assert tutor_obtido.nome == "Tutor Atualizado", "O nome do tutor atualizado não confere"
+        assert tutor_obtido.email == "Email Atualizada", "O email do tutor atualizado não confere"
+        assert tutor_obtido.senha == "Senha Atualizada", "A senha do tutor atualizado não confere"
+        assert tutor_obtido.telefone == "Telefone Atualizado", "O telefone do tutor atualizado não confere"
+    
+    def test_atualizar_senha(self, test_db):
+        criar_tabela_tutor
+        tutor_exemplo = Tutor(1, "Tutor Teste", "tutor@gmail.com", "12345678", "123456789")
+        id_tutor_inserido = inserir_tutor(tutor_exemplo)
+        #Act
+        nova_senha ="87654321"
+        resultado = atualizar_senha_usuario(id_tutor_inserido, nova_senha)
+        #Assert
+        assert resultado == True, "A atualização da senha deveria retornar True"
+        tutor_db = obter_tutor_por_id(id_tutor_inserido)
+        assert tutor_db.senha == nova_senha, "A senha do tutor atualizado não confere"
+
     def test_excluir_tutor(self, test_db):
         # Arrange
-        tutor_teste = tutor_model.Tutor(0, "Tutor Teste", "Descrição Teste")
-        id_tutor_inserido = tutor_repo.inserir_tutor(tutor_teste)
+        tutor_exemplo = Tutor(1, "Tutor Teste", "tutor@gmail.com", "12345678", "123456789")
+        id_tutor_inserido = inserir_tutor(tutor_exemplo)
         # Act
-        resultado = tutor_repo.excluir_tutor(id_tutor_inserido)
+        resultado = excluir_tutor(id_tutor_inserido)
         # Assert
         assert resultado == True, "A exclusão do tutor deveria retornar True"
         tutor_excluido = tutor_repo.obter_tutor_por_id(id_tutor_inserido)
-        assert tutor_excluido is None, "O tutor excluído deveria ser None"
+        assert tutor_excluido == None, "O tutor excluído deveria ser None"
+
     def test_obter_todos_tutores(self, test_db):
         # Arrange
-        tutor1 = tutor_model.Tutor(0, "Tutor 1", "Descrição 1")
-        tutor2 = tutor_model.Tutor(0, "Tutor 2", "Descrição 2")
+        criar_tabela_tutor
+        tutor1 = Tutor(1, "Tutor 1", "tutor1@gmail.com", "12345678", "123456789")
+        tutor2 = Tutor(2, "Tutor 2", "tutor2@gmail.com", "12345678", "123456789")
         tutor_repo.inserir_tutor(tutor1)
         tutor_repo.inserir_tutor(tutor2)
         # Act
-        tutores = tutor_repo.obter_todos_tutores()
+        tutores = tutor_repo.obter_todos_tutores_paginado()
         # Assert
         assert len(tutores) == 2, "Deveria retornar duas categorias"
         assert tutores[0].nome == "Tutor 1", "O nome do primeiro tutor não confere"
         assert tutores[1].nome == "Tutor 2", "O nome do segundo tutor não confere"
-        
+    
+    def test_obter_tutor_por_id(self, test_db):
+        #Arrange
+        criar_tabela_tutor()
+        tutor_teste = (1, "Tutor Teste", "tutor@gmail.com", "12345678", "123456789")
+        id_tutor_inserido = inserir_tutor(tutor_teste)
+        # Act
+        tutor_obtido = obter_tutor_por_id(id_tutor_inserido)
+        # Assert
+        assert tutor_obtido.nome == "Tutor Atualizado", "O nome do tutor atualizado não confere"
+        assert tutor_obtido.email == "Email Atualizada", "O email do tutor atualizado não confere"
+        assert tutor_obtido.senha == "Senha Atualizada", "A senha do tutor atualizado não confere"
+        assert tutor_obtido.telefone == "Telefone Atualizado", "O telefone do tutor atualizado não confere"        
